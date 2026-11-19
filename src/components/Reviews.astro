@@ -1,0 +1,28 @@
+---
+import { reviews } from '../data/content';
+interface Props { limit?: number; }
+const { limit } = Astro.props;
+const list = limit ? reviews.slice(0, limit) : reviews;
+---
+<ul class:list={['reviews', { 'reviews--all': !limit }]}>
+  {list.map((r) => (
+    <li>
+      <blockquote>
+        <p>{r.text}</p>
+        <footer>{r.name}</footer>
+      </blockquote>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .reviews { list-style: none; padding: 0; margin: 0; display: grid; gap: 2.5rem; }
+  @media (min-width: 900px) { .reviews { grid-template-columns: repeat(3, 1fr); gap: 3rem; } }
+  .reviews--all { columns: 1; display: block; }
+  @media (min-width: 760px) { .reviews--all { columns: 2; column-gap: 3rem; } }
+  @media (min-width: 1100px) { .reviews--all { columns: 3; } }
+  .reviews--all li { break-inside: avoid; margin-bottom: 2.5rem; }
+  blockquote { margin: 0; padding-top: 1.25rem; border-top: 2px solid var(--graphite); }
+  blockquote p { font-size: 1.08rem; line-height: 1.55; }
+  blockquote footer { font-weight: 700; color: var(--oak); }
+</style>

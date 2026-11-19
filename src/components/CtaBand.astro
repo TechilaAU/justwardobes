@@ -1,0 +1,28 @@
+---
+import { site } from '../config/site';
+interface Props { title?: string; text?: string; }
+const {
+  title = 'Book a free measure and quote',
+  text = 'A designer comes to you, measures up and talks through options. You get plans and a fixed price with no obligation.',
+} = Astro.props;
+---
+<section class="section section--dark cta">
+  <div class="wrap cta__inner">
+    <div>
+      <h2>{title}</h2>
+      <p>{text}</p>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn--primary" href="/contact/">Book a free measure</a>
+      <a class="btn btn--ghost num" href={site.phoneHref}>Call {site.phone}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta__inner { display: grid; gap: 2rem; align-items: end; }
+  @media (min-width: 900px) { .cta__inner { grid-template-columns: 1.4fr 1fr; } .cta .btn-row { justify-content: flex-end; } }
+  .cta p { color: var(--alu); margin: 0; }
+  .cta .btn--primary { background: var(--board); color: var(--graphite); }
+  .cta .btn--primary:hover { background: var(--oak-soft); color: var(--graphite); }
+</style>

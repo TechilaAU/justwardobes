@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import Reviews from '../components/Reviews.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site } from '../config/site';
+---
+<Base title="Customer Reviews" description="Reviews from Just Wardrobes & Storage customers across the Gold Coast, Brisbane and Sunshine Coast.">
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h1>What our customers say</h1>
+        <p>Had a robe installed by us? <a class="more" href={site.googleReview} rel="noopener">Leave us a Google review</a></p>
+      </div>
+      <Reviews />
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+
+<style>
+  h1 { font-size: clamp(2.2rem, 1.5rem + 3vw, 3.6rem); }
+</style>

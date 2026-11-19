@@ -1,0 +1,64 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { img, photos } from '../data/images';
+
+const rooms = [
+  { title: 'Kitchens', text: 'From Hamptons shaker to two-tone modern, designed around how you cook.', src: '2018/07/EDI_4744-copy.jpg', alt: 'Two-tone kitchen' },
+  { title: 'Laundries', text: 'Hide the mess with full-height storage and a proper folding bench.', src: '2018/11/IMG_9669_1536976766.jpg', alt: '2 pac shaker laundry' },
+  { title: 'Vanities & powder rooms', text: 'Custom vanities and refaces that suit the rest of the bathroom.', src: photos.vanity, alt: 'Timber vanity with pink basins' },
+  { title: 'Media & living', text: 'Media walls, feature fireplaces, bookcases and entry niches.', src: photos.fireplace, alt: 'Black media wall around a fireplace' },
+  { title: 'Bars & entertaining', text: 'Wine racks, lit glass cabinets and bar joinery.', src: photos.bar, alt: 'Home bar with lit glass cabinets' },
+  { title: 'Home office', text: 'Desks, work stations and storage that keeps paperwork out of sight.', src: photos.birDesk, alt: 'Built-in desk with timbergrain top' },
+];
+---
+<Base title="Kitchens & Custom Cabinetry" description="Custom kitchens, laundries, vanities, media units and commercial joinery from the Just Wardrobes Cabinetry Collection, designed and made on the Gold Coast.">
+  <PageHead
+    title="Kitchens & cabinetry"
+    intro="Our Cabinetry Collection brings the same made-to-measure approach to the rest of the house. Our team has a background in traditional cabinet design and manufacture, and works on projects small and large."
+    photo={img(photos.timberCabinetry)} alt="Full-height timber cabinetry" height="2700" width="4200"
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <ul class="rooms">
+        {rooms.map((r) => (
+          <li>
+            <div class="photo"><img src={img(r.src)} alt={r.alt} loading="lazy" /></div>
+            <h2>{r.title}</h2>
+            <p>{r.text}</p>
+          </li>
+        ))}
+      </ul>
+      <p class="rooms__more"><a class="more" href="/our-work/?type=cabinetry">See more cabinetry projects</a></p>
+    </div>
+  </section>
+
+  <section class="section section--panel">
+    <div class="wrap split">
+      <div>
+        <h2>Commercial & builders</h2>
+        <p>We fit out shops, offices and display homes, and work with builders from single homes through to multi-storey projects. Send us plans and we’ll quote straight from them.</p>
+        <a class="more" href="/contact/">Request a commercial quote</a>
+      </div>
+      <blockquote class="pull">
+        <p>We now have maximum use of our storage space for our retail store that is both functional and aesthetically pleasing.</p>
+        <footer>Hayden, retail fit-out</footer>
+      </blockquote>
+    </div>
+  </section>
+
+  <CtaBand title="Talk to us about your project" text="Book a free consultation in your home, or send plans or sketches and we’ll design and quote from those." />
+</Base>
+
+<style>
+  .rooms { list-style: none; margin: 0; padding: 0; display: grid; gap: 3rem 2rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .rooms .photo { aspect-ratio: 4 / 3; margin-bottom: 1rem; }
+  .rooms h2 { font-size: var(--step-1); margin-bottom: 0.3rem; letter-spacing: -0.01em; }
+  .rooms p { color: var(--graphite-2); margin: 0; }
+  .rooms__more { margin-top: 2.5rem; }
+  .pull { margin: 0; border-left: 3px solid var(--oak); padding-left: 1.5rem; }
+  .pull p { font-size: var(--step-2); line-height: 1.3; font-weight: 600; letter-spacing: -0.02em; }
+  .pull footer { color: var(--graphite-2); }
+</style>

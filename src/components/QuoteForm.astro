@@ -1,0 +1,98 @@
+---
+import { quoteForm, site } from '../config/site';
+const interests = ['Walk-in robe', 'Built-in robe', 'Boutique robe', 'Sliding doors only', 'Kitchen or cabinetry', 'Laundry, linen or pantry', 'Office or media unit', 'Commercial fit-out', 'Not sure yet'];
+---
+<form class="qf" action={quoteForm.action} method="POST" novalidate>
+  <input type="hidden" name="oid" value={quoteForm.orgId} />
+  <input type="hidden" name="retURL" value={quoteForm.returnUrl} />
+  <input type="hidden" name="lead_source" value={quoteForm.leadSource} />
+  <div class="qf__trap" aria-hidden="true">
+    <label>Leave this empty <input type="text" name="website_check" tabindex="-1" autocomplete="off" /></label>
+  </div>
+
+  <div class="qf__row">
+    <div class="qf__field">
+      <label for="first_name">First name</label>
+      <input id="first_name" name="first_name" maxlength="40" autocomplete="given-name" required />
+    </div>
+    <div class="qf__field">
+      <label for="last_name">Last name</label>
+      <input id="last_name" name="last_name" maxlength="80" autocomplete="family-name" required />
+    </div>
+  </div>
+  <div class="qf__row">
+    <div class="qf__field">
+      <label for="phone">Phone</label>
+      <input id="phone" name="phone" type="tel" maxlength="40" autocomplete="tel" required />
+    </div>
+    <div class="qf__field">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" maxlength="80" autocomplete="email" required />
+    </div>
+  </div>
+  <div class="qf__row">
+    <div class="qf__field">
+      <label for="city">Suburb</label>
+      <input id="city" name="city" maxlength="40" autocomplete="address-level2" required />
+    </div>
+    <div class="qf__field">
+      <label for="interest">What do you need?</label>
+      <select id="interest" name="interest">
+        {interests.map((i) => <option>{i}</option>)}
+      </select>
+    </div>
+  </div>
+  <div class="qf__field">
+    <label for="description">Tell us about your space <span>(optional)</span></label>
+    <textarea id="description" name="description" rows="4" placeholder="e.g. Master walk-in, about 2.4m x 2m, new build in Pimpama, timbergrain if the budget allows"></textarea>
+  </div>
+
+  <p class="qf__err" role="alert" hidden></p>
+  <button class="btn btn--primary" type="submit">Book my free measure</button>
+  <p class="qf__note">Have house plans? Email them to <a href={`mailto:${site.email}`}>{site.email}</a> and we can design straight from those.</p>
+</form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('form.qf').forEach((form) => {
+    form.addEventListener('submit', (e) => {
+      const err = form.querySelector<HTMLElement>('.qf__err')!;
+      const trap = form.querySelector<HTMLInputElement>('[name="website_check"]');
+      if (trap?.value) { e.preventDefault(); return; }
+
+      const missing = [...form.querySelectorAll<HTMLInputElement>('[required]')].filter((f) => !f.checkValidity());
+      form.querySelectorAll('[aria-invalid]').forEach((f) => f.removeAttribute('aria-invalid'));
+      if (missing.length) {
+        e.preventDefault();
+        missing.forEach((f) => f.setAttribute('aria-invalid', 'true'));
+        const names = missing.map((f) => form.querySelector(`label[for="${f.id}"]`)?.textContent?.toLowerCase());
+        err.textContent = `Add your ${names.join(', ')} so we can contact you.`;
+        err.hidden = false;
+        missing[0].focus();
+        return;
+      }
+      // Web-to-Lead ignores unknown fields, so fold the selection into the description.
+      const desc = form.querySelector<HTMLTextAreaElement>('#description')!;
+      const interest = form.querySelector<HTMLSelectElement>('#interest')!.value;
+      desc.value = `Interested in: ${interest}\n\n${desc.value}`.trim();
+    });
+  });
+</script>
+
+<style>
+  .qf { display: grid; gap: 1.1rem; }
+  .qf__row { display: grid; gap: 1.1rem; }
+  @media (min-width: 620px) { .qf__row { grid-template-columns: 1fr 1fr; } }
+  .qf__field { display: grid; gap: 0.35rem; }
+  .qf label { font-weight: 600; font-size: 0.95rem; }
+  .qf label span { font-weight: 400; color: var(--graphite-2); }
+  .qf input, .qf select, .qf textarea {
+    font: inherit; font-size: 1rem; color: var(--graphite); background: #fff;
+    border: 1.5px solid var(--alu); border-radius: var(--radius); padding: 0.8rem 0.9rem; width: 100%;
+  }
+  .qf input:focus, .qf select:focus, .qf textarea:focus { outline: none; border-color: var(--gum); box-shadow: 0 0 0 3px rgba(45, 74, 62, 0.18); }
+  .qf [aria-invalid='true'] { border-color: #a3341c; }
+  .qf__err { color: #a3341c; font-weight: 600; margin: 0; }
+  .qf .btn { justify-self: start; padding-inline: 1.8rem; }
+  .qf__note { font-size: 0.9rem; color: var(--graphite-2); margin: 0; }
+  .qf__trap { position: absolute; left: -9999px; }
+</style>

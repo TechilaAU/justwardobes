@@ -1,0 +1,109 @@
+---
+import Base from '../layouts/Base.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { img, gallery, galleryCats } from '../data/images';
+---
+<Base title="Our Work: Wardrobe & Cabinetry Gallery" description="Photos of walk-in robes, built-in robes, boutique robes, sliding doors and cabinetry built by Just Wardrobes & Storage across South East Queensland.">
+  <section class="gh">
+    <div class="wrap">
+      <h1>Our work</h1>
+      <p class="lede">Real robes and cabinetry we’ve designed and installed. Filter by type, and tap a photo to see it larger.</p>
+      <div class="filters" role="group" aria-label="Filter photos">
+        <button type="button" data-f="all" aria-pressed="true">All <span class="num">{gallery.length}</span></button>
+        {galleryCats.map((c) => (
+          <button type="button" data-f={c.id} aria-pressed="false">{c.label} <span class="num">{gallery.filter((g) => g.cat === c.id).length}</span></button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section gal-wrap">
+    <div class="wrap">
+      <ul class="gal" id="gal">
+        {gallery.map((g) => (
+          <li data-cat={g.cat}>
+            <button type="button" class="gal__btn" data-full={img(g.src)} data-alt={g.alt}>
+              <img src={img(g.src)} alt={g.alt} loading="lazy" decoding="async" />
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <dialog class="lb" id="lb" aria-label="Photo viewer">
+    <img alt="" />
+    <p class="lb__cap"></p>
+    <div class="lb__ctrl">
+      <button type="button" data-step="-1">Previous</button>
+      <button type="button" data-close>Close</button>
+      <button type="button" data-step="1">Next</button>
+    </div>
+  </dialog>
+
+  <CtaBand title="Like something here?" text="Book a free measure and tell us which photos you like. We’ll design something that fits your space." />
+</Base>
+
+<script>
+  const items = [...document.querySelectorAll<HTMLLIElement>('#gal li')];
+  const buttons = [...document.querySelectorAll<HTMLButtonElement>('.filters button')];
+  const apply = (f: string) => {
+    buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.f === f)));
+    items.forEach((li) => (li.hidden = f !== 'all' && li.dataset.cat !== f));
+    const url = new URL(location.href);
+    f === 'all' ? url.searchParams.delete('type') : url.searchParams.set('type', f);
+    history.replaceState(null, '', url);
+  };
+  buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.f!)));
+  const start = new URLSearchParams(location.search).get('type');
+  if (start && buttons.some((b) => b.dataset.f === start)) apply(start);
+
+  const lb = document.getElementById('lb') as HTMLDialogElement;
+  const lbImg = lb.querySelector('img')!;
+  const lbCap = lb.querySelector('.lb__cap')!;
+  let current = 0;
+  const visible = () => items.filter((li) => !li.hidden);
+  const show = (i: number) => {
+    const list = visible();
+    current = (i + list.length) % list.length;
+    const b = list[current].querySelector<HTMLButtonElement>('button')!;
+    lbImg.src = b.dataset.full!;
+    lbImg.alt = b.dataset.alt!;
+    lbCap.textContent = b.dataset.alt!;
+  };
+  items.forEach((li) => li.querySelector('button')!.addEventListener('click', () => {
+    show(visible().indexOf(li));
+    lb.showModal();
+  }));
+  lb.querySelectorAll<HTMLButtonElement>('[data-step]').forEach((b) => b.addEventListener('click', () => show(current + Number(b.dataset.step))));
+  lb.querySelector('[data-close]')!.addEventListener('click', () => lb.close());
+  lb.addEventListener('click', (e) => { if (e.target === lb) lb.close(); });
+  lb.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') show(current + 1);
+    if (e.key === 'ArrowLeft') show(current - 1);
+  });
+</script>
+
+<style>
+  .gh { padding: clamp(2.5rem, 6vw, 4.5rem) 0 1rem; }
+  .filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+  .filters button { font: inherit; font-size: 0.95rem; font-weight: 600; padding: 0.55rem 1rem; border-radius: 999px; border: 1px solid var(--alu); background: transparent; color: var(--graphite); cursor: pointer; }
+  .filters button span { color: var(--graphite-2); font-weight: 500; margin-left: 0.2rem; }
+  .filters button[aria-pressed='true'] { background: var(--graphite); color: var(--board); border-color: var(--graphite); }
+  .filters button[aria-pressed='true'] span { color: var(--alu); }
+  .gal-wrap { padding-top: 1.5rem; }
+  .gal { list-style: none; margin: 0; padding: 0; columns: 2 160px; column-gap: 0.75rem; }
+  @media (min-width: 900px) { .gal { columns: 4; column-gap: 1rem; } }
+  .gal li { break-inside: avoid; margin-bottom: 0.75rem; }
+  .gal li[hidden] { display: none; }
+  .gal__btn { display: block; width: 100%; padding: 0; border: 0; background: var(--alu); border-radius: var(--radius); overflow: hidden; cursor: zoom-in; }
+  .gal__btn img { width: 100%; transition: opacity .2s; }
+  .gal__btn:hover img { opacity: 0.88; }
+  .lb { border: 0; padding: 0; background: transparent; max-width: min(96vw, 1200px); max-height: 96vh; color: var(--board); }
+  .lb::backdrop { background: rgba(20, 22, 25, 0.92); }
+  .lb img { max-height: 80vh; width: auto; margin: 0 auto; border-radius: var(--radius); }
+  .lb__cap { text-align: center; margin: 0.75rem auto; max-width: 60ch; }
+  .lb__ctrl { display: flex; justify-content: center; gap: 0.5rem; }
+  .lb__ctrl button { font: inherit; font-weight: 600; padding: 0.6rem 1.1rem; border-radius: var(--radius); border: 1px solid var(--alu); background: transparent; color: var(--board); cursor: pointer; }
+  .lb__ctrl button:hover { background: var(--board); color: var(--graphite); }
+</style>

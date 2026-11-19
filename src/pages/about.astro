@@ -1,0 +1,65 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Steps from '../components/Steps.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { img, photos } from '../data/images';
+import { site } from '../config/site';
+import { suppliers } from '../data/content';
+---
+<Base title="About Us" description="Just Wardrobes & Storage is a Gold Coast team of designers, cabinetmakers and installers making custom wardrobes and storage. QBCC licensed, Master Builders member.">
+  <PageHead
+    title="About us"
+    intro="Just Wardrobes & Storage designs, makes and installs custom wardrobes, storage and cabinetry from our base in Nerang. We offer basic through to high-end systems, so there’s an option for every budget without cutting corners on quality."
+    photo={img(photos.wirDark)} alt="Dark timbergrain dressing room in Broadbeach Waters" height="2700" width="5200"
+  />
+
+  <section class="section">
+    <div class="wrap split">
+      <div>
+        <h2>Why people choose us</h2>
+        <ul class="tick-list">
+          <li>Free measure, design and quote with detailed plans so you know exactly what you’re getting</li>
+          <li>Onsite consultations where every option and question gets covered</li>
+          <li>We work within your budget and your space</li>
+          <li>Quick turnaround, and we install when it suits you</li>
+          <li>We turn up on time. If an installer is running late, we call and tell you why</li>
+          <li>Flexibility to change your design, and someone to talk to after the job is done</li>
+        </ul>
+      </div>
+      <dl class="spec">
+        <div><dt>Installation warranty</dt><dd>7 years (structural integrity)</dd></div>
+        <div><dt>Componentry warranty</dt><dd>7 years</dd></div>
+        <div><dt>Sliding door warranty</dt><dd>2 years</dd></div>
+        <div><dt>Licence</dt><dd class="num">QBCC {site.qbcc}</dd></div>
+        <div><dt>Membership</dt><dd>Master Builders</dd></div>
+        <div><dt>Materials</dt><dd>{suppliers.join(', ')}</dd></div>
+        <div><dt>Service area</dt><dd>Lennox Head to the Sunshine Coast, including Brisbane, the Gold Coast and some western areas</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section section--panel">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Our design process</h2>
+        <p>We can design in your home or office, or straight from house plans and dimensions with plans, wall elevations and 3D views.</p>
+      </div>
+      <Steps />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split split--flip">
+      <div class="photo"><img src={img(photos.wirIsland2)} alt="Boutique walk-in robe with centre buffet" loading="lazy" /></div>
+      <div>
+        <h2>In the community</h2>
+        <p>We supplied and installed shelving and storage for Bravehearts’ office in Strathpine. Bravehearts works to prevent child sexual assault through education and awareness. Learn more at <a href="https://bravehearts.org.au" rel="noopener">bravehearts.org.au</a>.</p>
+        <p>Our wardrobes have also featured on Better Homes and Gardens, in a Gold Coast home we designed for cyclist Robbie McEwen and his family.</p>
+        <p><a class="more" href="/reviews/">Read what customers say</a></p>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>

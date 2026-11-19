@@ -1,0 +1,48 @@
+---
+// A photo annotated like a joinery shop drawing: a height dimension down the
+// side and a width dimension underneath. Measurements in millimetres.
+interface Props {
+  src: string; alt: string; height?: string; width?: string;
+  ratio?: string; eager?: boolean; caption?: string;
+}
+const { src, alt, height, width, ratio = '4 / 5', eager = false, caption } = Astro.props;
+---
+<figure class="dim" style={`--ratio:${ratio}`}>
+  {height && (
+    <div class="dim__v" aria-hidden="true"><span class="num">{height}</span></div>
+  )}
+  <div class="dim__photo">
+    <img src={src} alt={alt} loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : 'auto'} decoding="async" />
+  </div>
+  {width && (
+    <div class="dim__h" aria-hidden="true"><span class="num">{width}</span></div>
+  )}
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .dim { margin: 0; display: grid; grid-template-columns: 2.25rem 1fr; grid-template-rows: auto 2.25rem auto; }
+  .dim__photo { grid-column: 2; grid-row: 1; aspect-ratio: var(--ratio); overflow: hidden; border-radius: var(--radius); background: var(--alu); }
+  .dim__photo img { width: 100%; height: 100%; object-fit: cover; }
+
+  .dim__v, .dim__h { position: relative; color: var(--oak); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.02em; }
+  .dim__v { grid-column: 1; grid-row: 1; }
+  .dim__h { grid-column: 2; grid-row: 2; }
+
+  /* the dimension line */
+  .dim__v::before { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; border-left: 1px solid currentColor; transform-origin: top; animation: draw-v .9s .2s cubic-bezier(.6,0,.2,1) both; }
+  .dim__h::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; border-top: 1px solid currentColor; transform-origin: left; animation: draw-h .9s .5s cubic-bezier(.6,0,.2,1) both; }
+  /* end ticks */
+  .dim__v::after { content: ''; position: absolute; left: 30%; right: 30%; top: 0; bottom: 0; border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; }
+  .dim__h::after { content: ''; position: absolute; top: 30%; bottom: 30%; left: 0; right: 0; border-left: 1px solid currentColor; border-right: 1px solid currentColor; }
+
+  .dim span { position: absolute; z-index: 1; background: var(--board); padding: 0.15rem 0.35rem; white-space: nowrap; animation: fade .4s 1s both; }
+  .dim__v span { top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-90deg); }
+  .dim__h span { left: 50%; top: 50%; transform: translate(-50%, -50%); }
+
+  figcaption { grid-column: 2; grid-row: 3; font-size: var(--step--1); color: var(--graphite-2); }
+
+  @keyframes draw-v { from { transform: scaleY(0); } }
+  @keyframes draw-h { from { transform: scaleX(0); } }
+  @keyframes fade { from { opacity: 0; } }
+</style>

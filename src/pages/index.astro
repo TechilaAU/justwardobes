@@ -1,0 +1,143 @@
+---
+import Base from '../layouts/Base.astro';
+import Dimensioned from '../components/Dimensioned.astro';
+import Steps from '../components/Steps.astro';
+import Reviews from '../components/Reviews.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { img, photos } from '../data/images';
+import { site } from '../config/site';
+import { suppliers } from '../data/content';
+
+const spaces = [
+  { href: '/wardrobes/#walk-in', title: 'Walk-in robes', text: 'Made to measure, from simple white to full timbergrain with a centre island.', src: photos.wirWhiteSheen, alt: 'White walk-in robe' },
+  { href: '/wardrobes/#built-in', title: 'Built-in robes', text: 'New internals for an existing robe, or a full robe where there wasn’t one.', src: photos.birDesk, alt: 'Built-in robe with timbergrain desk' },
+  { href: '/cabinetry/', title: 'Kitchens & cabinetry', text: 'Kitchens, laundries, vanities, bars and media walls.', src: photos.bar, alt: 'Home bar cabinetry' },
+  { href: '/doors-and-finishes/', title: 'Sliding doors', text: 'Mirror, glass, shaker and printed doors to finish the robe.', src: photos.doorMirror, alt: 'Framed mirror and white glass sliding doors' },
+];
+---
+<Base
+  title="Custom Wardrobes Gold Coast, Brisbane & Sunshine Coast | Just Wardrobes & Storage"
+  description="Custom walk-in and built-in wardrobes, sliding doors and cabinetry, made on the Gold Coast. Free measure and quote. 7 year warranty. QBCC 1180459."
+>
+  <section class="hero">
+    <div class="wrap hero__inner">
+      <div class="hero__text">
+        <h1>Wardrobes built to the millimetre, for the way you live.</h1>
+        <p class="lede">We design, make and install custom robes and storage across the Gold Coast, Brisbane, Sunshine Coast and Northern NSW. Free measure and quote, and most white robes installed within a week.</p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href="/contact/">Book a free measure</a>
+          <a class="btn btn--ghost" href="/our-work/">See our work</a>
+        </div>
+        <dl class="hero__facts">
+          <div><dt>Warranty</dt><dd>7 years on installation and components</dd></div>
+          <div><dt>Workshop</dt><dd>Nerang, Gold Coast</dd></div>
+          <div><dt>Licence</dt><dd class="num">QBCC {site.qbcc}</dd></div>
+        </dl>
+      </div>
+      <div class="hero__photo">
+        <Dimensioned src={img(photos.heroWir)} alt="White walk-in robe with open shelving, drawers and pendant light" height="2100" width="3600" ratio="4 / 4.4" eager />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="spaces-h">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="spaces-h">What are you looking for?</h2>
+        <p>Start with the space. Every option is made to fit, in white, edged melamine or timbergrain.</p>
+      </div>
+      <ul class="spaces">
+        {spaces.map((s) => (
+          <li>
+            <a href={s.href}>
+              <div class="photo"><img src={img(s.src)} alt={s.alt} loading="lazy" /></div>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--panel" aria-labelledby="how-h">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="how-h">How it works</h2>
+        <p>One team from first call to final clean up. You deal with real people who turn up when they say they will.</p>
+      </div>
+      <Steps />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="why-h">
+    <div class="wrap split">
+      <div class="photo"><img src={img(photos.wirIsland)} alt="Boutique walk-in robe with central island" loading="lazy" /></div>
+      <div>
+        <h2 id="why-h">Small enough to care, big enough to deliver</h2>
+        <p>We’re a local team with our own designers, cabinetmakers and installers. That means we can move jobs around to suit you, and still take on anything from a single linen cupboard to a multi-storey project.</p>
+        <ul class="tick-list">
+          <li>Detailed plans and 3D views before anything is made</li>
+          <li>Design changes are welcome until you’re happy</li>
+          <li>Installers who call ahead if they’re running late</li>
+          <li>Board from Polytec, Laminex, Formica and Lamicolor, hardware from Häfele, Blum and Harn</li>
+        </ul>
+        <a class="more" href="/about/">More about us</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--panel" aria-labelledby="rev-h">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="rev-h">What customers say</h2>
+        <p><a class="more" href="/reviews/">Read all reviews</a></p>
+      </div>
+      <Reviews limit={3} />
+    </div>
+  </section>
+
+  <section class="section build" aria-labelledby="build-h">
+    <div class="wrap split split--flip">
+      <div class="photo"><img src={img(photos.birWhite)} alt="White built-in robe in a new home" loading="lazy" /></div>
+      <div>
+        <h2 id="build-h">Building a new home?</h2>
+        <p>Most project builders fit one shelf and a rail. Ask your builder to leave the robes empty, send us your plans, and we’ll quote well ahead so you can budget. We can install before handover.</p>
+        <a class="more" href="/new-homes-and-renovations/">Tips for new builds and renovations</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="brands" aria-label="Materials and hardware we use">
+    <div class="wrap">
+      <ul>{suppliers.map((s) => <li>{s}</li>)}</ul>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .hero { padding: clamp(2rem, 5vw, 4rem) 0 clamp(3rem, 6vw, 5rem); }
+  .hero__inner { display: grid; gap: 3rem; align-items: center; }
+  @media (min-width: 960px) { .hero__inner { grid-template-columns: 1.05fr 1fr; gap: 4rem; } }
+  .hero h1 { max-width: 13ch; }
+  .hero .lede { margin-bottom: 2rem; }
+  .hero__facts { margin: 2.75rem 0 0; display: grid; grid-template-columns: repeat(3, auto); gap: 1.5rem; justify-content: start; border-top: 1px solid var(--line); padding-top: 1.25rem; }
+  .hero__facts dt { font-size: 0.8rem; color: var(--oak); font-weight: 650; }
+  .hero__facts dd { margin: 0.2rem 0 0; font-size: 0.92rem; font-weight: 550; max-width: 20ch; }
+  @media (max-width: 560px) { .hero__facts { grid-template-columns: 1fr 1fr; } }
+
+  .spaces { list-style: none; margin: 0; padding: 0; display: grid; gap: 2rem 1rem; grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 900px) { .spaces { grid-template-columns: repeat(4, 1fr); gap: 2rem 1.5rem; } }
+  .spaces a { display: block; text-decoration: none; color: inherit; }
+  .spaces .photo { aspect-ratio: 3 / 4; margin-bottom: 1rem; }
+  .spaces img { transition: transform .5s cubic-bezier(.2,0,.2,1); }
+  .spaces a:hover img { transform: scale(1.03); }
+  .spaces h3 { margin-bottom: 0.3rem; }
+  .spaces a:hover h3 { color: var(--oak); }
+  .spaces p { color: var(--graphite-2); font-size: 0.97rem; margin: 0; }
+
+  .brands { border-top: 1px solid var(--line); padding: 2rem 0; }
+  .brands ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem; font-weight: 700; font-size: 1.15rem; color: var(--graphite-2); letter-spacing: -0.01em; }
+</style>

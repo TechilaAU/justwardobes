@@ -1,0 +1,80 @@
+---
+import Logo from './Logo.astro';
+import { nav, site } from '../config/site';
+const path = Astro.url.pathname;
+---
+<header class="hdr">
+  <div class="wrap hdr__inner">
+    <a href="/" class="hdr__logo" aria-label="Just Wardrobes & Storage home"><Logo /></a>
+
+    <nav class="hdr__nav" id="site-nav" aria-label="Main">
+      <ul>
+        {nav.map((n) => (
+          <li><a href={n.href} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a></li>
+        ))}
+      </ul>
+      <div class="hdr__mobile-extra">
+        <a class="btn btn--primary" href="/contact/">Book a free measure</a>
+        <a class="btn btn--ghost" href={site.phoneHref}>Call {site.phone}</a>
+      </div>
+    </nav>
+
+    <div class="hdr__actions">
+      <a class="hdr__phone num" href={site.phoneHref}>{site.phone}</a>
+      <a class="btn btn--primary" href="/contact/">Book a free measure</a>
+    </div>
+
+    <button class="hdr__toggle" aria-expanded="false" aria-controls="site-nav">
+      <span class="sr-only">Menu</span>
+      <span class="bars" aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('.hdr__toggle');
+  const navEl = document.getElementById('site-nav');
+  btn?.addEventListener('click', () => {
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!open));
+    navEl?.classList.toggle('is-open', !open);
+    document.body.classList.toggle('nav-open', !open);
+  });
+</script>
+
+<style>
+  .hdr { position: sticky; top: 0; z-index: 50; background: rgba(250, 250, 248, 0.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .hdr__inner { display: flex; align-items: center; gap: 2rem; min-height: 4.5rem; }
+  .hdr__logo { text-decoration: none; }
+  .hdr__nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 1.6rem; }
+  .hdr__nav a { color: var(--graphite); text-decoration: none; font-weight: 550; font-size: 0.98rem; padding-block: 0.5rem; border-bottom: 2px solid transparent; }
+  .hdr__nav a:hover { color: var(--oak); }
+  .hdr__nav a[aria-current='page'] { border-color: var(--oak); }
+  .hdr__actions { margin-left: auto; display: flex; align-items: center; gap: 1.25rem; }
+  .hdr__phone { color: var(--graphite); font-weight: 650; text-decoration: none; }
+  .hdr__actions .btn { padding: 0.8rem 1.1rem; }
+  .hdr__toggle, .hdr__mobile-extra { display: none; }
+
+  @media (max-width: 1080px) {
+    .hdr__phone { display: none; }
+  }
+  @media (max-width: 900px) {
+    .hdr__actions { display: none; }
+    .hdr__toggle { display: grid; place-items: center; margin-left: auto; width: 2.75rem; height: 2.75rem; border: 0; background: none; cursor: pointer; color: var(--graphite); }
+    .bars, .bars::before, .bars::after { display: block; width: 1.4rem; height: 2px; background: currentColor; position: relative; transition: transform .2s; }
+    .bars::before, .bars::after { content: ''; position: absolute; left: 0; }
+    .bars::before { top: -7px; } .bars::after { top: 7px; }
+    [aria-expanded='true'] .bars { background: transparent; }
+    [aria-expanded='true'] .bars::before { transform: translateY(7px) rotate(45deg); }
+    [aria-expanded='true'] .bars::after { transform: translateY(-7px) rotate(-45deg); }
+
+    .hdr__nav { display: none; position: fixed; inset: 4.5rem 0 0; background: var(--board); padding: 1.5rem var(--gutter) 2rem; overflow-y: auto; }
+    .hdr__nav.is-open { display: block; }
+    .hdr__nav ul { flex-direction: column; gap: 0; }
+    .hdr__nav li { border-bottom: 1px solid var(--line); }
+    .hdr__nav a { display: block; font-size: 1.5rem; font-weight: 700; padding: 0.9rem 0; letter-spacing: -0.02em; border: 0; }
+    .hdr__mobile-extra { display: grid; gap: 0.75rem; margin-top: 2rem; }
+    .hdr__mobile-extra .btn { color: var(--graphite); }
+    .hdr__mobile-extra .btn--primary { color: #fff; }
+  }
+</style>

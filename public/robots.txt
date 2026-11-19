@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.justwardrobes.com.au/sitemap-index.xml

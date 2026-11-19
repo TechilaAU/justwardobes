@@ -1,0 +1,111 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { img, photos } from '../data/images';
+
+const panels = [
+  { name: 'Mirror', text: 'Adds light and makes the room feel bigger.' },
+  { name: 'White glass', text: 'A brilliant super-white finish.' },
+  { name: 'Translucent glass', text: 'Soft light through, with a slight green tint.' },
+  { name: 'Painted glass', text: 'Any colour, to match your décor.' },
+  { name: 'Printed glass', text: 'Your own photo printed life size, in full colour.' },
+  { name: 'White melamine', text: 'Classic textured white to match your robe.' },
+  { name: 'Vinyl', text: 'Vinyl-coated board to match the frame colour.' },
+  { name: 'Raw gyprock', text: 'Supplied ready to paint any colour you like.' },
+];
+const doorPhotos = [
+  { src: photos.surano, alt: 'Polytec Surano shaker sliding doors', cap: 'Polytec Surano shaker' },
+  { src: photos.doorMirror, alt: 'Framed mirror and white glass doors', cap: 'Framed mirror and white glass' },
+  { src: photos.doorSemi, alt: 'Semi-frameless mirror doors', cap: 'Semi-frameless mirror' },
+  { src: photos.doorPrinted, alt: 'Photo printed sliding doors', cap: 'Custom printed glass' },
+  { src: photos.door2pac, alt: 'Routered 2 pac doors', cap: 'Routered 2 pac' },
+  { src: photos.doorJamb, alt: 'Jamb and mullion hinged doors', cap: 'Jamb and mullion hinged' },
+];
+const finishes = [
+  { name: 'White melamine', text: 'Our standard. Clean, bright and the fastest to install.', swatch: '#f4f4f1', edge: '#f4f4f1' },
+  { name: 'Edged melamine', text: 'White board with a brushed silver or timbergrain edge for a touch of detail.', swatch: '#f4f4f1', edge: '#9aa0a5' },
+  { name: 'Timbergrain', text: 'Warm woodgrain boards for a premium, built-in look. Allow up to 3 weeks.', swatch: '#a8774e', edge: '#8c5b37' },
+];
+---
+<Base title="Sliding Wardrobe Doors, Colours & Finishes" description="Sliding and hinged wardrobe doors in mirror, glass, printed glass, shaker and melamine, plus white, edged and timbergrain finishes. Gold Coast and Brisbane.">
+  <PageHead
+    title="Doors & finishes"
+    intro="Sliding doors save space and can make a room look bigger. Pick a frame, a panel and a track, then choose the finish for the inside of the robe."
+    photo={img(photos.doorMirror)} alt="Framed mirror and white glass sliding doors" height="2400" width="2700"
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Sliding doors in three choices</h2>
+        <p>Sliding doors carry a 2 year warranty. Hinged doors, bifolds and jamb and mullion framing are available too.</p>
+      </div>
+
+      <div class="choices">
+        <div>
+          <h3><span class="num">1</span> Frame</h3>
+          <p>Framed, or semi-frameless (mirrorline) for a cleaner edge.</p>
+          <p>Frames in white, brushed aluminium, polished aluminium or black. Ask about other colours.</p>
+        </div>
+        <div>
+          <h3><span class="num">2</span> Panel</h3>
+          <dl class="spec">{panels.map((p) => <div><dt>{p.name}</dt><dd>{p.text}</dd></div>)}</dl>
+        </div>
+        <div>
+          <h3><span class="num">3</span> Track</h3>
+          <p>Double or triple track, or our slimline and softline systems. The right one depends on how many doors you have and how much of the robe you need open at once.</p>
+          <h3 class="choices__new">Polytec Surano</h3>
+          <p>Shaker-style sliding doors with a 130mm rail, available in a range of colours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--panel">
+    <div class="wrap">
+      <h2>Door styles we’ve fitted</h2>
+      <ul class="doors">
+        {doorPhotos.map((d) => (
+          <li><div class="photo"><img src={img(d.src)} alt={d.alt} loading="lazy" /></div><p>{d.cap}</p></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="finishes">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Colours & finishes</h2>
+        <p>We use board from Polytec, Laminex, Formica and Lamicolor. Lighter colours brighten a small robe; timbergrain makes a large one feel luxurious.</p>
+      </div>
+      <ul class="finishes">
+        {finishes.map((f) => (
+          <li>
+            <span class="swatch" style={`--s:${f.swatch};--e:${f.edge}`} aria-hidden="true"></span>
+            <h3>{f.name}</h3>
+            <p>{f.text}</p>
+          </li>
+        ))}
+      </ul>
+      <p><a class="more" href="https://www.polytec.com.au/" rel="noopener">Browse the Polytec colour range</a></p>
+    </div>
+  </section>
+
+  <CtaBand title="Choose doors and colours at your free measure" text="Our designer will talk you through door and colour options in your own space, then quote the lot." />
+</Base>
+
+<style>
+  .choices { display: grid; gap: 2.5rem; }
+  @media (min-width: 960px) { .choices { grid-template-columns: 1fr 1.3fr 1fr; gap: 3.5rem; } }
+  .choices h3 { display: flex; align-items: baseline; gap: 0.6rem; font-size: var(--step-2); }
+  .choices h3 .num { color: var(--oak); }
+  .choices__new { margin-top: 2rem; font-size: var(--step-1) !important; }
+  .doors { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  .doors .photo { aspect-ratio: 3 / 4; }
+  .doors p { margin: 0.6rem 0 0; font-weight: 600; font-size: 0.95rem; }
+  .finishes { list-style: none; margin: 0 0 2rem; padding: 0; display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .swatch { display: block; aspect-ratio: 16 / 9; border-radius: var(--radius); background: var(--s); border: 1px solid var(--line); box-shadow: inset 0 -10px 0 var(--e); margin-bottom: 1rem; }
+  .finishes li:last-child .swatch { background: repeating-linear-gradient(100deg, #a8774e 0 6px, #9a6a43 6px 9px, #b0835a 9px 15px); }
+  .finishes p { color: var(--graphite-2); margin: 0; }
+</style>

@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { faqs } from '../data/content';
+import { site } from '../config/site';
+const groups = [...new Set(faqs.map((f) => f.group))];
+const schema = {
+  '@context': 'https://schema.org', '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<Base title="Frequently Asked Questions" description="Answers about custom wardrobe cost, lead times, warranty, colours, sizes and installation from Just Wardrobes & Storage.">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <section class="section">
+    <div class="wrap faq">
+      <div class="faq__side">
+        <h1>Questions & answers</h1>
+        <p>Can’t see your question? Call <a class="num" href={site.phoneHref}>{site.phone}</a> and we’ll answer it.</p>
+        <nav aria-label="Topics">
+          {groups.map((g) => <a href={`#${g.toLowerCase().replace(/[^a-z]+/g, '-')}`}>{g}</a>)}
+        </nav>
+      </div>
+      <div>
+        {groups.map((g) => (
+          <section class="faq__group" id={g.toLowerCase().replace(/[^a-z]+/g, '-')}>
+            <h2>{g}</h2>
+            {faqs.filter((f) => f.group === g).map((f) => (
+              <details>
+                <summary>{f.q}</summary>
+                <p>{f.a}</p>
+              </details>
+            ))}
+          </section>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+
+<style>
+  .faq { display: grid; gap: 2.5rem; }
+  @media (min-width: 900px) { .faq { grid-template-columns: 1fr 1.8fr; gap: 5rem; } .faq__side { position: sticky; top: 7rem; align-self: start; } }
+  .faq h1 { font-size: clamp(2.2rem, 1.5rem + 3vw, 3.4rem); }
+  .faq__side nav { display: grid; gap: 0.4rem; margin-top: 1.5rem; }
+  .faq__side nav a { font-weight: 600; }
+  .faq__group + .faq__group { margin-top: 3rem; }
+  .faq__group h2 { font-size: var(--step-2); }
+  details { border-bottom: 1px solid var(--line); }
+  details:first-of-type { border-top: 1px solid var(--line); }
+  summary { cursor: pointer; list-style: none; padding: 1.1rem 2.5rem 1.1rem 0; font-weight: 650; font-size: 1.08rem; position: relative; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: ''; position: absolute; right: 0.5rem; top: 1.35rem; width: 0.6rem; height: 0.6rem; border-right: 2px solid var(--oak); border-bottom: 2px solid var(--oak); transform: rotate(45deg); transition: transform .2s; }
+  details[open] summary::after { transform: rotate(-135deg); top: 1.6rem; }
+  details p { color: var(--graphite-2); padding-bottom: 1.2rem; margin: 0; }
+</style>

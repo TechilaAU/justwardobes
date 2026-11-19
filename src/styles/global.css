@@ -1,0 +1,102 @@
+@import '@fontsource-variable/schibsted-grotesk';
+
+/* Palette taken from the product itself: white melamine board, graphite
+   door frames, brushed aluminium track, oak timbergrain, and a eucalypt
+   green for the one action we want people to take. */
+:root {
+  --board: #fafaf8;
+  --panel: #eef0ef;
+  --graphite: #23262b;
+  --graphite-2: #4a4f57;
+  --alu: #c9ced2;
+  --line: #dfe2e3;
+  --oak: #8c5b37;
+  --oak-soft: #e9ddd1;
+  --gum: #2d4a3e;
+  --gum-dark: #22392f;
+
+  --font: 'Schibsted Grotesk Variable', system-ui, sans-serif;
+  --step--1: 0.875rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.25rem;
+  --step-2: 1.6rem;
+  --step-3: clamp(1.9rem, 1.4rem + 1.8vw, 2.6rem);
+  --step-4: clamp(2.4rem, 1.6rem + 3.4vw, 4.2rem);
+
+  --wrap: 1240px;
+  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+  --radius: 4px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 6rem; }
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  color: var(--graphite);
+  background: var(--board);
+  font-feature-settings: 'kern', 'liga';
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--gum); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+a:hover { color: var(--oak); }
+:focus-visible { outline: 3px solid var(--oak); outline-offset: 3px; border-radius: 2px; }
+
+h1, h2, h3, h4 { line-height: 1.08; margin: 0 0 0.5em; letter-spacing: -0.02em; font-weight: 700; text-wrap: balance; }
+h1 { font-size: var(--step-4); font-weight: 800; letter-spacing: -0.035em; }
+h2 { font-size: var(--step-3); font-weight: 750; letter-spacing: -0.03em; }
+h3 { font-size: var(--step-1); letter-spacing: -0.01em; }
+p { margin: 0 0 1em; max-width: 64ch; text-wrap: pretty; }
+.lede { font-size: var(--step-1); line-height: 1.5; color: var(--graphite-2); max-width: 46ch; }
+.num { font-variant-numeric: tabular-nums; }
+
+.wrap { width: min(100% - 2 * var(--gutter), var(--wrap)); margin-inline: auto; }
+.section { padding-block: clamp(3.5rem, 8vw, 6.5rem); }
+.section--panel { background: var(--panel); }
+.section--dark { background: var(--graphite); color: var(--board); }
+.section--dark a { color: #cfe3d8; }
+.section-head { display: grid; gap: 0.25rem 3rem; grid-template-columns: 1fr; margin-bottom: 2.5rem; align-items: end; }
+@media (min-width: 900px) { .section-head { grid-template-columns: 1.1fr 1fr; } .section-head p { margin: 0; } }
+.skip { position: absolute; left: -999px; top: 0; background: var(--graphite); color: #fff; padding: 0.75rem 1rem; z-index: 100; }
+.skip:focus { left: 1rem; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  font: inherit; font-weight: 650; font-size: 1rem; line-height: 1;
+  padding: 0.95rem 1.4rem; border-radius: var(--radius); border: 1.5px solid transparent;
+  text-decoration: none; cursor: pointer; transition: background-color .15s, color .15s, border-color .15s;
+}
+.btn--primary { background: var(--gum); color: #fff; }
+.btn--primary:hover { background: var(--gum-dark); color: #fff; }
+.btn--ghost { border-color: currentColor; color: var(--graphite); background: transparent; }
+.btn--ghost:hover { background: var(--graphite); color: var(--board); border-color: var(--graphite); }
+.section--dark .btn--ghost { color: var(--board); }
+.section--dark .btn--ghost:hover { background: var(--board); color: var(--graphite); }
+.btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+/* Text link with an underline that reads as a link, not decoration */
+.more { font-weight: 650; color: var(--gum); }
+
+/* Lists of facts: spec sheet style, label left, value right */
+.spec { margin: 0; border-top: 1px solid var(--line); }
+.spec div { display: grid; grid-template-columns: minmax(7rem, 38%) 1fr; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--line); }
+.spec dt { color: var(--graphite-2); font-size: var(--step--1); padding-top: 0.15rem; }
+.spec dd { margin: 0; }
+
+.tick-list { list-style: none; padding: 0; margin: 0 0 1.5rem; }
+.tick-list li { padding-left: 1.6rem; position: relative; margin-bottom: 0.5rem; }
+.tick-list li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 0.8rem; height: 0.45rem; border-left: 2px solid var(--oak); border-bottom: 2px solid var(--oak); transform: rotate(-45deg); }
+
+.photo { border-radius: var(--radius); overflow: hidden; background: var(--alu); }
+.photo img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Two column split used on inner pages */
+.split { display: grid; gap: 2.5rem; align-items: center; }
+@media (min-width: 900px) { .split { grid-template-columns: 1fr 1fr; gap: 4.5rem; } .split--flip > :first-child { order: 2; } }
+.split .photo { aspect-ratio: 4 / 3; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }

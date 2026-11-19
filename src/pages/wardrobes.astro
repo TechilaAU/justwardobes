@@ -1,0 +1,121 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { img, photos } from '../data/images';
+
+const systems = [
+  { name: 'Suspended', best: 'Budget-conscious robes', how: 'Mounted to the wall on channel and brackets, floor stays clear', finish: 'White melamine, or white with brushed silver or timbergrain edging', href: '/our-work/?type=built-in' },
+  { name: 'On the floor', best: 'Upmarket homes and heavy loads', how: 'Panels stand on the floor for extra strength and a built-in look', finish: 'White board, edged melamine or timbergrain', href: '/our-work/?type=built-in' },
+  { name: 'Boutique', best: 'Statement walk-in robes', how: 'Fully bespoke cabinetry with an exclusive design and colour consultation', finish: 'Timbergrain and coloured finishes, premium accessories', href: '/our-work/?type=boutique' },
+];
+const extras = ['Centre buffets with glass tops and velvet-lined jewellery trays', 'Shoe racks and display shelving', 'Pull-out pant racks and tie racks', 'Drawers with matching fronts', 'Make-up areas and desks', 'LED lighting'];
+---
+<Base title="Custom Walk-in & Built-in Wardrobes" description="Walk-in, built-in and boutique wardrobes made to measure on the Gold Coast. Suspended, on-the-floor and bespoke systems. Free measure and quote.">
+  <PageHead
+    title="Wardrobes"
+    intro="Every robe we build is designed for your room and your things. Choose the type of robe, then the system that suits your budget, then the finish."
+    photo={img(photos.wirTimber)} alt="Timbergrain walk-in robe" height="2100" width="2400"
+  >
+    <nav class="jump" aria-label="On this page">
+      <a href="#walk-in">Walk-in robes</a>
+      <a href="#built-in">Built-in robes</a>
+      <a href="#boutique">Boutique robes</a>
+      <a href="#systems">Compare systems</a>
+    </nav>
+  </PageHead>
+
+  <section class="section" id="walk-in">
+    <div class="wrap split">
+      <div class="photo"><img src={img(photos.wirShelves)} alt="Walk-in robe with lit display shelving" loading="lazy" /></div>
+      <div>
+        <h2>Walk-in robes</h2>
+        <p>Fit out a walk-in with our standard system, or step up to our luxury cabinetry range. Either way the layout is planned around what you own: how much long and double hanging, how many drawers, where the shoes go.</p>
+        <ul class="tick-list">
+          <li>Classic white or timbergrain finishes</li>
+          <li>Shelving up to the ceiling to use every bit of height</li>
+          <li>Room for a centre buffet in larger spaces</li>
+        </ul>
+        <a class="more" href="/our-work/?type=walk-in">See walk-in robes we’ve built</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--panel" id="built-in">
+    <div class="wrap split split--flip">
+      <div class="photo"><img src={img(photos.birTimber)} alt="Timbergrain built-in robe" loading="lazy" /></div>
+      <div>
+        <h2>Built-in robes</h2>
+        <p>Replace the single shelf and rail in an existing robe, or add a full built-in robe to a room that has none. Pair it with sliding or hinged doors to finish it off.</p>
+        <ul class="tick-list">
+          <li>Internals only, or a complete robe with doors</li>
+          <li>Works in old homes where nothing is square</li>
+          <li>Linen, pantry and garage shelving too</li>
+        </ul>
+        <a class="more" href="/our-work/?type=built-in">See built-in robes we’ve built</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="boutique">
+    <div class="wrap split">
+      <div class="photo"><img src={img(photos.boutique)} alt="Boutique walk-in robe with chandelier and centre island" loading="lazy" /></div>
+      <div>
+        <h2>Boutique robes</h2>
+        <p>For a dressing room that feels like a boutique. Boutique robes get an exclusive consultation with detailed plans, concept development and colour advice, and the highest quality finishes we offer.</p>
+        <p>Add a centre buffet as the focal point: a glass top to show off jewellery and watches, velvet-lined trays, and melamine or perspex dividers.</p>
+        <a class="more" href="/our-work/?type=boutique">See boutique robes and buffets</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--panel" id="systems">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Compare our systems</h2>
+        <p>Not sure which to choose? We’ll recommend one at your free measure based on your space and budget.</p>
+      </div>
+      <div class="table-scroll">
+        <table class="compare">
+          <thead>
+            <tr><th scope="col">System</th><th scope="col">Best for</th><th scope="col">How it’s built</th><th scope="col">Finishes</th></tr>
+          </thead>
+          <tbody>
+            {systems.map((s) => (
+              <tr><th scope="row">{s.name}</th><td>{s.best}</td><td>{s.how}</td><td>{s.finish}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="extras">
+        <h3>Add what you need</h3>
+        <ul class="tick-list">{extras.map((e) => <li>{e}</li>)}</ul>
+      </div>
+
+      <dl class="spec specs">
+        <div><dt>Standard depth</dt><dd class="num">300 to 450mm</dd></div>
+        <div><dt>Standard height</dt><dd class="num">2040 to 2100mm, or to suit your robe</dd></div>
+        <div><dt>Drawers</dt><dd>Metal-sided, 16mm melamine back and base, fronts to match</dd></div>
+        <div><dt>Lead time</dt><dd>About 1 week for white or silver-edge melamine, up to 3 weeks for timbergrain</dd></div>
+        <div><dt>Warranty</dt><dd>7 years on installation, 7 years on componentry</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .jump { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+  .jump a { font-size: 0.92rem; font-weight: 600; text-decoration: none; color: var(--graphite); border: 1px solid var(--alu); padding: 0.5rem 0.85rem; border-radius: 999px; }
+  .jump a:hover { border-color: var(--graphite); color: var(--graphite); }
+  .table-scroll { overflow-x: auto; }
+  .compare { width: 100%; border-collapse: collapse; min-width: 640px; font-size: 0.98rem; }
+  .compare th, .compare td { text-align: left; vertical-align: top; padding: 1rem 1.25rem 1rem 0; border-bottom: 1px solid var(--alu); }
+  .compare thead th { font-size: 0.85rem; color: var(--graphite-2); font-weight: 600; border-bottom: 2px solid var(--graphite); }
+  .compare tbody th { font-size: 1.15rem; font-weight: 750; white-space: nowrap; }
+  .extras { margin-top: 3rem; }
+  .extras .tick-list { columns: 2 260px; column-gap: 2rem; }
+  .specs { margin-top: 1rem; max-width: 760px; }
+</style>

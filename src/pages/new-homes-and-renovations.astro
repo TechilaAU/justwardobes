@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { img, photos } from '../data/images';
+import { site } from '../config/site';
+const tips = [
+  { t: 'Check your builder’s specs', d: 'Most project builders include just one shelf and a hanging rail in robes, and limited shelving in the linen.' },
+  { t: 'Ask for the robes to be left empty', d: 'If you plan to upgrade, have your builder leave the space bare. Otherwise you may pay for rip-out, dumping, patching and painting.' },
+  { t: 'Install before the flooring', d: 'In most cases the robe goes in before flooring, so you can change floors later and leave the robe untouched.' },
+  { t: 'Paint the walls first', d: 'Walls should be painted before installation. A contrasting colour can make your robes really stand out.' },
+  { t: 'Expect a final measure', d: 'Dimensions often change once walls and plasterboard are done, so we always measure again before installing.' },
+  { t: 'Install before handover', d: 'With your builder’s OK, we can install before you get the keys.' },
+];
+---
+<Base title="Wardrobes for New Homes & Renovations" description="Building or renovating on the Gold Coast or in Brisbane? Get custom wardrobes quoted from your house plans and installed before handover.">
+  <PageHead
+    title="Building or renovating"
+    intro="It’s an exciting time with plenty of decisions. We make the storage ones easy, and can quote early so you can budget properly."
+    photo={img(photos.birWhite2)} alt="White reach-in robe in a new home" height="2100" width="1800"
+  />
+
+  <section class="section">
+    <div class="wrap split">
+      <div>
+        <h2>Three ways to get a quote</h2>
+        <ul class="tick-list">
+          <li>Email your house plans to <a href={`mailto:${site.email}`}>{site.email}</a> and we’ll design and quote from them</li>
+          <li>Talk through your requirements and measurements over the phone</li>
+          <li>Meet us on site to go through it face to face</li>
+        </ul>
+        <p>Renovating? We can visit for an in-home consultation, or design and quote from your sketches or plans.</p>
+      </div>
+      <div class="photo"><img src={img(photos.wirPantRacks)} alt="Walk-in robe with pull-out pant racks" loading="lazy" /></div>
+    </div>
+  </section>
+
+  <section class="section section--panel">
+    <div class="wrap">
+      <h2>Tips for a new build</h2>
+      <ol class="tips">
+        {tips.map((x) => <li><h3>{x.t}</h3><p>{x.d}</p></li>)}
+      </ol>
+    </div>
+  </section>
+
+  <CtaBand title="Send us your plans" text={`Email ${site.email} or book a free measure, and we’ll quote well ahead of your build.`} />
+</Base>
+
+<style>
+  .tips { margin: 2rem 0 0; padding: 0; list-style: none; display: grid; gap: 2rem 3rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); counter-reset: t; }
+  .tips li { counter-increment: t; border-top: 2px solid var(--graphite); padding-top: 1rem; }
+  .tips h3::before { content: counter(t) '. '; color: var(--oak); }
+  .tips p { color: var(--graphite-2); margin: 0; }
+</style>

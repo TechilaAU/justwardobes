@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import QuoteForm from '../components/QuoteForm.astro';
+import { site } from '../config/site';
+---
+<Base title="Book a Free Measure & Quote" description="Book a free, no-obligation measure and quote for custom wardrobes, sliding doors or cabinetry. Call 07 5502 2444 or send us your details.">
+  <section class="section">
+    <div class="wrap contact">
+      <div>
+        <h1>Book a free measure</h1>
+        <p class="lede">Tell us a little about your space and we’ll call to set up a time. There’s no cost and no obligation.</p>
+        <QuoteForm />
+      </div>
+
+      <aside class="contact__side">
+        <h2>Prefer to talk?</h2>
+        <dl class="spec">
+          <div><dt>Office</dt><dd><a class="num" href={site.phoneHref}>{site.phone}</a></dd></div>
+          <div><dt>Mobile</dt><dd><a class="num" href={site.mobileHref}>{site.mobile}</a></dd></div>
+          <div><dt>Email</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></div>
+          <div><dt>Workshop</dt><dd><a href={site.mapUrl} rel="noopener">{site.address.street}, {site.address.suburb} {site.address.state} {site.address.postcode}</a></dd></div>
+        </dl>
+
+        <h2>Good to know</h2>
+        <ul class="tick-list">
+          <li>Payment is due on installation day by bank transfer, cash or cheque. Larger jobs may need a 50% deposit.</li>
+          <li>We service from Lennox Head to the Sunshine Coast.</li>
+          <li>We’re not licensed to handle asbestos, so we can’t take on jobs where it’s present.</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact { display: grid; gap: 3.5rem; }
+  @media (min-width: 960px) { .contact { grid-template-columns: 1.5fr 1fr; gap: 5rem; } }
+  .contact h1 { font-size: clamp(2.2rem, 1.5rem + 3vw, 3.4rem); }
+  .contact__side { background: var(--panel); padding: 2rem; border-radius: var(--radius); align-self: start; }
+  .contact__side h2 { font-size: var(--step-1); }
+  .contact__side .spec { margin-bottom: 2.5rem; }
+  .contact__side .tick-list { font-size: 0.95rem; margin: 0; }
+</style>

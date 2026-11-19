@@ -1,0 +1,85 @@
+---
+import Logo from './Logo.astro';
+import { site } from '../config/site';
+const year = new Date().getFullYear();
+---
+<footer class="ftr">
+  <div class="wrap ftr__grid">
+    <div class="ftr__brand">
+      <Logo inverse />
+      <p>Custom wardrobes, storage and cabinetry, designed and made on the Gold Coast. Free measure and quote across South East Queensland and Northern NSW.</p>
+      <a class="btn btn--primary" href="/contact/">Book a free measure</a>
+    </div>
+
+    <div>
+      <h2 class="ftr__h">What we make</h2>
+      <ul>
+        <li><a href="/wardrobes/#walk-in">Walk-in robes</a></li>
+        <li><a href="/wardrobes/#built-in">Built-in robes</a></li>
+        <li><a href="/wardrobes/#boutique">Boutique robes</a></li>
+        <li><a href="/cabinetry/">Kitchens & cabinetry</a></li>
+        <li><a href="/doors-and-finishes/">Sliding doors</a></li>
+        <li><a href="/doors-and-finishes/#finishes">Colours & finishes</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="ftr__h">Helpful</h2>
+      <ul>
+        <li><a href="/our-work/">Our work</a></li>
+        <li><a href="/new-homes-and-renovations/">Building or renovating</a></li>
+        <li><a href="/reviews/">Reviews</a></li>
+        <li><a href="/faq/">FAQ</a></li>
+        <li><a href="/about/">About us</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="ftr__h">Talk to us</h2>
+      <ul class="num">
+        <li><a href={site.phoneHref}>{site.phone}</a></li>
+        <li><a href={site.mobileHref}>{site.mobile}</a></li>
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li><a href={site.mapUrl} rel="noopener">{site.address.street}<br />{site.address.suburb} {site.address.state} {site.address.postcode}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap ftr__base">
+    <p>© {year} {site.name}. QBCC licence {site.qbcc}. Master Builders member.</p>
+    <p>
+      <a href={site.facebook} rel="noopener">Facebook</a>
+      <a href={site.googleReview} rel="noopener">Review us on Google</a>
+      <a href="/privacy/">Privacy</a>
+    </p>
+  </div>
+</footer>
+
+<div class="callbar" aria-label="Quick contact">
+  <a href={site.phoneHref}>Call us</a>
+  <a href="/contact/" class="callbar__main">Book a free measure</a>
+</div>
+
+<style>
+  .ftr { background: var(--graphite); color: var(--alu); padding: 4.5rem 0 2rem; font-size: 0.95rem; }
+  .ftr a { color: var(--board); text-decoration: none; }
+  .ftr a:hover { color: var(--oak-soft); text-decoration: underline; }
+  .ftr__grid { display: grid; gap: 2.5rem; grid-template-columns: 1fr; }
+  @media (min-width: 760px) { .ftr__grid { grid-template-columns: 1.6fr 1fr 1fr 1.2fr; } }
+  .ftr__brand p { margin: 1.25rem 0 1.5rem; max-width: 36ch; }
+  .ftr__brand .btn { color: #fff; }
+  .ftr__h { font-size: 0.95rem; color: var(--board); font-weight: 700; letter-spacing: 0; margin-bottom: 1rem; }
+  .ftr ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; }
+  .ftr__base { margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid #3a3e45; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; font-size: 0.85rem; }
+  .ftr__base p { margin: 0; max-width: none; }
+  .ftr__base a { margin-left: 1.25rem; }
+  .ftr__base a:first-child { margin-left: 0; }
+
+  .callbar { display: none; }
+  @media (max-width: 760px) {
+    .callbar { display: grid; grid-template-columns: 1fr 2fr; position: fixed; bottom: 0; left: 0; right: 0; z-index: 40; border-top: 1px solid var(--line); }
+    .callbar a { padding: 1rem; text-align: center; font-weight: 700; text-decoration: none; background: var(--board); color: var(--graphite); }
+    .callbar__main { background: var(--gum) !important; color: #fff !important; }
+    .ftr { padding-bottom: 5.5rem; }
+  }
+</style>
