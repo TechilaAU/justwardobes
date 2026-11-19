@@ -35,6 +35,8 @@
 /_c/projects/                 /our-work/                     301
 /jw/contact/                  /contact/                      301
 /jw/privacy-policy/           /privacy/                      301
+/jw/standard-robe-configurations/   /standard-robes/       301
+/jw/standard-robe-configurations-*  /standard-robes/       301
 /jw/news/*                    /our-work/                     301
 /jw                           /                              301
 /jw/*                         /                              301

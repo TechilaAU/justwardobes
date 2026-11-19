@@ -106,4 +106,22 @@ p { margin: 0 0 1em; max-width: 64ch; text-wrap: pretty; }
 @media (min-width: 900px) { .split { grid-template-columns: 1fr 1fr; gap: 4.5rem; } .split--flip > :first-child { order: 2; } }
 .split .photo { aspect-ratio: 4 / 3; }
 
+/* Forms (quote and order) */
+.qf { display: grid; gap: 1.1rem; }
+.qf__row { display: grid; gap: 1.1rem; }
+@media (min-width: 620px) { .qf__row { grid-template-columns: 1fr 1fr; } }
+.qf__field { display: grid; gap: 0.35rem; }
+.qf label { font-weight: 600; font-size: 0.95rem; }
+.qf label span { font-weight: 400; color: var(--graphite-2); }
+.qf input, .qf select, .qf textarea {
+  font: inherit; font-size: 1rem; color: var(--graphite); background: #fff;
+  border: 1.5px solid var(--alu); border-radius: var(--radius); padding: 0.8rem 0.9rem; width: 100%;
+}
+.qf input:focus, .qf select:focus, .qf textarea:focus { outline: none; border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0, 174, 239, 0.2); }
+.qf [aria-invalid='true'] { border-color: #a3341c; }
+.qf__err { color: #a3341c; font-weight: 600; margin: 0; }
+.qf .btn { justify-self: start; padding-inline: 1.8rem; }
+.qf__note { font-size: 0.9rem; color: var(--graphite-2); margin: 0; }
+.qf__trap { position: absolute; left: -9999px; }
+
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }

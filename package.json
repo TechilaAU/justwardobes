@@ -7,7 +7,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "images:pull": "node scripts/pull-images.mjs"
+    "images:pull": "node scripts/pull-images.mjs",
+    "robes:list": "node scripts/list-robes.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.6",

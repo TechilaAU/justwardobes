@@ -39,6 +39,7 @@ export const quoteForm = {
 
 export const nav = [
   { href: '/wardrobes/', label: 'Wardrobes' },
+  { href: '/standard-robes/', label: 'Standard robes' },
   { href: '/cabinetry/', label: 'Cabinetry' },
   { href: '/doors-and-finishes/', label: 'Doors & finishes' },
   { href: '/our-work/', label: 'Our work' },

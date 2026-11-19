@@ -60,6 +60,16 @@ const spaces = [
     </div>
   </section>
 
+  <section class="std" aria-labelledby="std-h">
+    <div class="wrap std__inner">
+      <div>
+        <h2 id="std-h">Know your size? Order a standard robe online</h2>
+        <p>Choose from 165 standard built-in layouts by width and height, see the price and place your order. We check-measure before we make it.</p>
+      </div>
+      <a class="btn btn--primary" href="/standard-robes/">Shop standard robes</a>
+    </div>
+  </section>
+
   <section class="section section--panel" aria-labelledby="how-h">
     <div class="wrap">
       <div class="section-head">
@@ -138,6 +148,11 @@ const spaces = [
   .spaces a:hover h3 { color: var(--blue); }
   .spaces p { color: var(--graphite-2); font-size: 0.97rem; margin: 0; }
 
+  .std { padding-bottom: clamp(3rem, 6vw, 5rem); }
+  .std__inner { display: grid; gap: 1.5rem; align-items: center; border: 1px solid var(--line); border-left: 6px solid var(--cyan); padding: clamp(1.5rem, 3vw, 2.25rem); border-radius: var(--radius); }
+  @media (min-width: 900px) { .std__inner { grid-template-columns: 1fr auto; gap: 3rem; } }
+  .std h2 { font-size: var(--step-2); }
+  .std p { margin: 0; color: var(--graphite-2); }
   .brands { border-top: 1px solid var(--line); padding: 2rem 0; }
   .brands ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem; font-weight: 700; font-size: 1.1rem; color: var(--graphite-2); }
 </style>

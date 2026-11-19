@@ -5,9 +5,15 @@ import { site } from '../config/site';
 <Base title="Request received" description="Thanks for your enquiry." noindex>
   <section class="section">
     <div class="wrap">
-      <h1>Request received</h1>
+      <h1 id="t-h">Request received</h1>
       <p class="lede">Thanks. We’ll be in touch shortly to book your free measure. Need us sooner? Call <a class="num" href={site.phoneHref}>{site.phone}</a>.</p>
       <div class="btn-row"><a class="btn btn--ghost" href="/our-work/">Browse our work while you wait</a></div>
     </div>
   </section>
 </Base>
+<script>
+  if (new URLSearchParams(location.search).has('order')) {
+    document.getElementById('t-h')!.textContent = 'Order received';
+    document.title = 'Order received | Just Wardrobes & Storage';
+  }
+</script>

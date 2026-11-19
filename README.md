@@ -19,6 +19,7 @@ The old site had 30+ pages split across "Your Space", "Wardrobes" and "About Us"
 | `/` | Home |
 | `/wardrobes/` | Wardrobes, Spaces, Systems, Suspended, Built-in, On the floor, Centre buffet, Boutique robes, Walk-in robes |
 | `/cabinetry/` | Kitchens, Cabinetry Collection, Office, Media, Living room, Storage, Commercial |
+| `/standard-robes/` | Standard Robe Configurations and all 26 width pages (now one page: pick type, width, height, layout, then order) |
 | `/doors-and-finishes/` | Doors, Colours, White melamine, Edged melamine, Timbergrain |
 | `/our-work/` | Projects gallery and every per-system photo page (filterable, with lightbox) |
 | `/about/` | About us, Why us, Design process |
@@ -29,16 +30,28 @@ Old URLs are 301 redirected in `public/_redirects` (Netlify / Cloudflare format)
 
 ## Brand
 
-- **Mark**: two sliding door panels on a double track, one open (`src/components/Logo.astro`, `public/favicon.svg`).
-- **Colours** come from the product: melamine white `#fafaf8`, graphite frame `#23262b`, brushed aluminium `#c9ced2`, oak timbergrain `#8c5b37`, and eucalypt green `#2d4a3e` reserved for the "Book a free measure" action.
-- **Type**: Schibsted Grotesk (self-hosted via Fontsource), one family throughout.
-- **Signature detail**: key photos carry joinery-style dimension lines (`src/components/Dimensioned.astro`) using real standard heights (2040 to 2100mm).
+Follows the existing Just Wardrobes & Storage logo and website.
+
+- **Logo**: `public/logo.png` (supplied artwork) and `public/logo-white.png` (black lettering switched to white for the dark footer). Favicon is the mark cropped from the logo.
+- **Colours**: logo cyan `#00AEEF` and logo black `#231F20`. Cyan is for marks and fills (heading bars, lines, ticks, the call-to-action band); text links use `#0F72B0` because cyan text on white fails contrast. Panels are `#F2F2F2`, as on the current site.
+- **Type**: Playfair Display for headings and Open Sans for body, as on the current site (self-hosted via Fontsource).
+- **Details**: the short cyan bar under headings carries over from the current site. Key photos carry joinery-style dimension lines (`src/components/Dimensioned.astro`).
 
 ## Editing content
 
 - Phone, email, address, licence, warranty: `src/config/site.ts`
 - Reviews, FAQs, process steps, suppliers: `src/data/content.ts`
 - Photos and gallery: `src/data/images.ts`
+
+## Standard robes (price and order online)
+
+`/standard-robes/` lists 165 standard layouts taken from the drawings on the current site: built-in cavity or with end panel, 1200 to 3600mm wide, 1800/2040/2100mm high. Customers pick type, width and height, choose a layout, see the price and place an order. Orders go to Salesforce as a Lead (Lead Source "Website - Standard robe order") with the layout, layout ID, price shown, sliding door request and timing in the description. No payment is taken online; the copy tells customers you'll call to confirm, check-measure and take the deposit.
+
+**Prices**: add them to `src/data/standard-robe-prices.ts`, either one price per size (applies to every layout at that size) or per layout. `npm run robes:list` prints every key. Robes without a price show "Price on request" and can still be ordered.
+
+Layouts come from `src/data/standard-robes.json` (drawing paths); section names are decoded from the drawing filenames (DU drawer unit, LH long hanging, DH double hanging, BOS bank of shelves, and so on) in `src/data/standard-robes.ts`.
+
+To take a deposit online later, add a Stripe Payment Link per layout and swap the order button for it.
 
 ## Quote form → Salesforce
 
@@ -61,7 +74,8 @@ PUBLIC_IMAGES_LOCAL=true npm run build    # set this env var in your host too
 
 ## Before launch checklist
 
-- [ ] Pull images locally (above)
+- [ ] Add standard robe prices
+- [ ] Pull images locally (above). This also copies the 165 standard robe drawings
 - [ ] Test the quote form end to end
 - [ ] Confirm GTM container `GTM-MFDWH4Z` is still the right one
 - [ ] Add 301s for any old URLs not covered (the old site had a `/shop` link)

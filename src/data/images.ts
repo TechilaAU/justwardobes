@@ -6,7 +6,7 @@ const REMOTE = 'https://www.justwardrobes.com.au/content/wp-content/uploads/';
 const LOCAL = import.meta.env.PUBLIC_IMAGES_LOCAL === 'true';
 
 export const img = (path: string) =>
-  LOCAL ? `/img/${path.split('/').pop()}` : REMOTE + path;
+  LOCAL ? `/img/${path}` : REMOTE + path;
 
 export const photos = {
   heroWir: '2025/06/Just-Wardrobes-Web43.jpg',

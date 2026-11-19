@@ -1,0 +1,306 @@
+---
+import Base from '../layouts/Base.astro';
+import { robes, robeTypes, widths, heights, formatPrice } from '../data/standard-robes';
+import { img } from '../data/images';
+import { quoteForm, site } from '../config/site';
+
+const measureGuide = img('2018/03/JWS-DIY-Measurement-Form.jpg');
+---
+<Base title="Standard Robes: Price & Order Online" description="Choose a standard built-in robe by width, height and layout, see the price and order online. White melamine, installed, 7 year warranty. Gold Coast and Brisbane.">
+  <section class="sr-head">
+    <div class="wrap sr-head__inner">
+      <div>
+        <h1 class="bar">Standard robes, priced and ready to order</h1>
+        <p class="lede">Pick your robe size and a layout, see the price, and order in a few minutes. We confirm everything with a quick check-measure before we make it.</p>
+      </div>
+      <dl class="spec">
+        <div><dt>Finish</dt><dd>16mm Polytec Classic White matt melamine</dd></div>
+        <div><dt>Depth</dt><dd class="num">450mm</dd></div>
+        <div><dt>Heights</dt><dd class="num">1800, 2040 or 2100mm to the top shelf</dd></div>
+        <div><dt>Installed</dt><dd>Usually within a week of confirming</dd></div>
+        <div><dt>Warranty</dt><dd>7 years on installation and componentry</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section sr" id="configure">
+    <div class="wrap">
+      <form class="sr-pick" id="pick" aria-label="Choose your robe">
+        <fieldset>
+          <legend><span class="num">1</span> What kind of space is it?</legend>
+          <div class="sr-types">
+            {robeTypes.map((t, i) => (
+              <label class="sr-type">
+                <input type="radio" name="type" value={t.id} checked={i === 0} />
+                <span><strong>{t.label}</strong>{t.text}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend><span class="num">2</span> Width</legend>
+          <p class="sr-hint">Measure wall to wall and choose the closest size. Not sure? <a href={measureGuide} target="_blank" rel="noopener">See our measuring guide</a>.</p>
+          <div class="chips">
+            {widths.map((w, i) => (
+              <label class="chip"><input type="radio" name="width" value={w} checked={w === 1800} /><span class="num">{w}mm</span></label>
+            ))}
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend><span class="num">3</span> Height</legend>
+          <div class="chips">
+            {heights.map((h) => (
+              <label class="chip"><input type="radio" name="height" value={h} checked={h === 2040} /><span class="num">{h}mm</span></label>
+            ))}
+          </div>
+        </fieldset>
+      </form>
+
+      <div class="sr-results">
+        <h2 id="results-h"><span class="num">4</span> Choose a layout</h2>
+        <p class="sr-count" id="count" aria-live="polite"></p>
+        <ul class="layouts" id="layouts">
+          {robes.map((r) => (
+            <li data-type={r.type} data-width={r.width} data-height={r.height} data-id={r.id}>
+              <button type="button" class="layout__img" data-full={img(r.drawing)} aria-label={`View drawing: ${r.sections.join(', ')}`}>
+                <img src={img(r.drawing)} alt={`${r.width}mm wide by ${r.height}mm high robe: ${r.sections.join(', ')}`} loading="lazy" decoding="async" />
+              </button>
+              <div class="layout__body">
+                <p class="layout__size num">{r.width} W × {r.height} H{r.type === 'end-gable' ? ', end panel' : ''}</p>
+                <ol class="layout__sections">{r.sections.map((s) => <li>{s}</li>)}</ol>
+                <p class="layout__price">{r.price ? formatPrice(r.price) : 'Price on request'}</p>
+                <button type="button" class="btn btn--primary layout__choose"
+                  data-summary={`${r.type === 'built-in' ? 'Built-in cavity' : 'With end panel'}, ${r.width}mm wide × ${r.height}mm high: ${r.sections.join(', ')}`}
+                  data-price={r.price ?? ''}>Order this robe</button>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <p class="sr-empty" id="empty" hidden>No standard layouts at this height for this width. Try another height, or <a href="/contact/">book a free measure</a> for a custom design.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--panel order" id="order" hidden>
+    <div class="wrap order__inner">
+      <div class="order__summary">
+        <h2 class="bar">Your order</h2>
+        <img id="order-img" alt="" />
+        <p id="order-text" class="order__text"></p>
+        <p id="order-price" class="order__price"></p>
+        <button type="button" class="more order__change" id="order-change">Change layout</button>
+      </div>
+
+      <form class="qf order__form" action={quoteForm.action} method="POST" id="order-form">
+        <input type="hidden" name="oid" value={quoteForm.orgId} />
+        <input type="hidden" name="retURL" value={quoteForm.returnUrl.replace('/thanks/', '/thanks/?order=1')} />
+        <input type="hidden" name="lead_source" value="Website - Standard robe order" />
+        <input type="hidden" name="description" id="order-desc" />
+        <div class="qf__trap" aria-hidden="true"><label>Leave this empty <input type="text" name="website_check" tabindex="-1" autocomplete="off" /></label></div>
+
+        <div class="qf__row">
+          <div class="qf__field"><label for="o-first">First name</label><input id="o-first" name="first_name" autocomplete="given-name" required /></div>
+          <div class="qf__field"><label for="o-last">Last name</label><input id="o-last" name="last_name" autocomplete="family-name" required /></div>
+        </div>
+        <div class="qf__row">
+          <div class="qf__field"><label for="o-phone">Phone</label><input id="o-phone" name="phone" type="tel" autocomplete="tel" required /></div>
+          <div class="qf__field"><label for="o-email">Email</label><input id="o-email" name="email" type="email" autocomplete="email" required /></div>
+        </div>
+        <div class="qf__field"><label for="o-street">Install address</label><input id="o-street" name="street" autocomplete="street-address" required /></div>
+        <div class="qf__row">
+          <div class="qf__field"><label for="o-city">Suburb</label><input id="o-city" name="city" autocomplete="address-level2" required /></div>
+          <div class="qf__field"><label for="o-zip">Postcode</label><input id="o-zip" name="zip" inputmode="numeric" maxlength="4" autocomplete="postal-code" required /></div>
+        </div>
+        <div class="qf__row">
+          <div class="qf__field">
+            <label for="o-when">When do you need it?</label>
+            <select id="o-when"><option>As soon as possible</option><option>In the next month</option><option>1 to 3 months</option><option>New build, date to be confirmed</option></select>
+          </div>
+          <div class="qf__field qf__check">
+            <label><input type="checkbox" id="o-doors" /> Add sliding doors to my quote</label>
+          </div>
+        </div>
+        <div class="qf__field"><label for="o-notes">Anything we should know? <span>(optional)</span></label><textarea id="o-notes" rows="3" placeholder="e.g. exact wall to wall measurement, skirting, power points, access"></textarea></div>
+
+        <p class="qf__err" role="alert" hidden></p>
+        <button class="btn btn--primary" type="submit">Place order</button>
+        <p class="qf__note">No payment today. We’ll call to confirm your order, book a quick check-measure and arrange your deposit and install date. Questions? Call <a class="num" href={site.phoneHref}>{site.phone}</a>.</p>
+      </form>
+    </div>
+  </section>
+
+  <dialog class="lb" id="lb" aria-label="Robe drawing">
+    <img alt="" />
+    <div class="lb__ctrl"><button type="button" data-close>Close</button></div>
+  </dialog>
+</Base>
+
+<script>
+  const formatPrice = (n: number) => n.toLocaleString('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
+  const pick = document.getElementById('pick') as HTMLFormElement;
+  const items = [...document.querySelectorAll<HTMLLIElement>('#layouts > li')];
+  const count = document.getElementById('count')!;
+  const empty = document.getElementById('empty')!;
+  const val = (n: string) => (pick.elements.namedItem(n) as RadioNodeList).value;
+
+  // Restore choices from the URL so a configuration can be shared.
+  const q = new URLSearchParams(location.search);
+  for (const k of ['type', 'width', 'height']) {
+    const v = q.get(k);
+    const input = v && pick.querySelector<HTMLInputElement>(`input[name="${k}"][value="${v}"]`);
+    if (input) input.checked = true;
+  }
+
+  const update = () => {
+    const t = val('type'), w = val('width');
+    // Only offer heights that exist for this type and width.
+    const avail = new Set(items.filter((li) => li.dataset.type === t && li.dataset.width === w).map((li) => li.dataset.height));
+    pick.querySelectorAll<HTMLInputElement>('input[name="height"]').forEach((i) => {
+      i.disabled = !avail.has(i.value);
+      i.closest('label')!.classList.toggle('is-off', i.disabled);
+    });
+    if (pick.querySelector<HTMLInputElement>('input[name="height"]:checked')?.disabled) {
+      const first = pick.querySelector<HTMLInputElement>('input[name="height"]:not(:disabled)');
+      if (first) first.checked = true;
+    }
+    const h = val('height');
+    let n = 0;
+    items.forEach((li) => {
+      const show = li.dataset.type === t && li.dataset.width === w && li.dataset.height === h;
+      li.hidden = !show;
+      if (show) n++;
+    });
+    count.textContent = `${n} layout${n === 1 ? '' : 's'} for ${w}mm wide × ${h}mm high`;
+    empty.hidden = n > 0;
+    const url = new URL(location.href);
+    url.searchParams.set('type', t); url.searchParams.set('width', w); url.searchParams.set('height', h);
+    history.replaceState(null, '', url);
+  };
+  pick.addEventListener('change', update);
+  update();
+
+  // Lightbox for drawings
+  const lb = document.getElementById('lb') as HTMLDialogElement;
+  document.querySelectorAll<HTMLButtonElement>('.layout__img').forEach((b) => b.addEventListener('click', () => {
+    lb.querySelector('img')!.src = b.dataset.full!;
+    lb.showModal();
+  }));
+  lb.querySelector('[data-close]')!.addEventListener('click', () => lb.close());
+  lb.addEventListener('click', (e) => { if (e.target === lb) lb.close(); });
+
+  // Order
+  const order = document.getElementById('order')!;
+  const orderText = document.getElementById('order-text')!;
+  const orderPrice = document.getElementById('order-price')!;
+  const orderImg = document.getElementById('order-img') as HTMLImageElement;
+  let chosen = { summary: '', price: '', id: '' };
+  document.querySelectorAll<HTMLButtonElement>('.layout__choose').forEach((b) => b.addEventListener('click', () => {
+    const li = b.closest('li')!;
+    chosen = { summary: b.dataset.summary!, price: b.dataset.price!, id: li.dataset.id! };
+    orderText.textContent = chosen.summary;
+    orderPrice.textContent = chosen.price ? `${formatPrice(Number(chosen.price))} inc GST, installed` : 'Price on request. We’ll confirm it when we call.';
+    orderPrice.classList.toggle('is-tbc', !chosen.price);
+    orderImg.src = li.querySelector('img')!.src;
+    orderImg.alt = li.querySelector('img')!.alt;
+    order.hidden = false;
+    order.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('o-first')?.focus({ preventScroll: true });
+  }));
+  document.getElementById('order-change')!.addEventListener('click', () => {
+    document.getElementById('configure')!.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  const form = document.getElementById('order-form') as HTMLFormElement;
+  form.addEventListener('submit', (e) => {
+    const err = form.querySelector<HTMLElement>('.qf__err')!;
+    if (form.querySelector<HTMLInputElement>('[name="website_check"]')?.value) { e.preventDefault(); return; }
+    const missing = [...form.querySelectorAll<HTMLInputElement>('[required]')].filter((f) => !f.checkValidity());
+    form.querySelectorAll('[aria-invalid]').forEach((f) => f.removeAttribute('aria-invalid'));
+    if (!chosen.id || missing.length) {
+      e.preventDefault();
+      missing.forEach((f) => f.setAttribute('aria-invalid', 'true'));
+      err.textContent = !chosen.id
+        ? 'Choose a layout above first.'
+        : `Add your ${missing.map((f) => form.querySelector(`label[for="${f.id}"]`)?.textContent?.toLowerCase()).join(', ')} to place your order.`;
+      err.hidden = false;
+      missing[0]?.focus();
+      return;
+    }
+    const doors = (document.getElementById('o-doors') as HTMLInputElement).checked;
+    const when = (document.getElementById('o-when') as HTMLSelectElement).value;
+    const notes = (document.getElementById('o-notes') as HTMLTextAreaElement).value;
+    (document.getElementById('order-desc') as HTMLInputElement).value = [
+      'STANDARD ROBE ORDER',
+      chosen.summary,
+      `Layout ID: ${chosen.id}`,
+      `Price shown: ${chosen.price ? formatPrice(Number(chosen.price)) : 'Price on request'}`,
+      `Sliding doors: ${doors ? 'Yes, please quote' : 'No'}`,
+      `Timing: ${when}`,
+      notes && `Notes: ${notes}`,
+    ].filter(Boolean).join('\n');
+  });
+</script>
+
+<style>
+  .sr-head { padding: clamp(2.5rem, 6vw, 4.5rem) 0 2.5rem; border-bottom: 1px solid var(--line); }
+  .sr-head__inner { display: grid; gap: 2.5rem; align-items: end; }
+  @media (min-width: 960px) { .sr-head__inner { grid-template-columns: 1.3fr 1fr; gap: 4rem; } }
+  .sr-head h1 { font-size: clamp(2.2rem, 1.5rem + 3vw, 3.4rem); }
+
+  .sr { padding-top: 3rem; }
+  .sr .wrap { display: grid; gap: 3rem; }
+  @media (min-width: 1000px) { .sr .wrap { grid-template-columns: 340px 1fr; gap: 3.5rem; align-items: start; } .sr-pick { position: sticky; top: 7rem; } }
+
+  .sr-pick fieldset { border: 0; margin: 0 0 2rem; padding: 0; }
+  .sr-pick legend, .sr-results h2 { display: flex; gap: 0.6rem; align-items: baseline; font-weight: 700; font-size: 1.15rem; margin-bottom: 0.9rem; padding: 0; font-family: var(--font); }
+  .sr-results h2::after { display: none; }
+  legend .num, .sr-results h2 .num { display: inline-grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--cyan); color: var(--graphite); font-size: 0.9rem; font-weight: 800; flex: none; }
+  .sr-hint { font-size: 0.92rem; color: var(--graphite-2); margin: -0.4rem 0 0.8rem; }
+
+  .sr-types { display: grid; gap: 0.6rem; }
+  .sr-type { display: block; cursor: pointer; }
+  .sr-type input, .chip input { position: absolute; opacity: 0; pointer-events: none; }
+  .sr-type span { display: block; border: 1.5px solid var(--alu); border-radius: var(--radius); padding: 0.85rem 1rem; font-size: 0.92rem; color: var(--graphite-2); }
+  .sr-type strong { display: block; color: var(--graphite); font-size: 1rem; }
+  .sr-type input:checked + span { border-color: var(--graphite); box-shadow: inset 4px 0 0 var(--cyan); }
+  .sr-type input:focus-visible + span, .chip input:focus-visible + span { outline: 3px solid var(--cyan); outline-offset: 2px; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+  .chip { cursor: pointer; }
+  .chip span { display: block; padding: 0.5rem 0.75rem; border: 1.5px solid var(--alu); border-radius: var(--radius); font-weight: 600; font-size: 0.92rem; }
+  .chip input:checked + span { background: var(--graphite); border-color: var(--graphite); color: #fff; }
+  .chip.is-off { cursor: not-allowed; }
+  .chip.is-off span { opacity: 0.35; text-decoration: line-through; }
+
+  .sr-count { color: var(--graphite-2); margin: -0.4rem 0 1.25rem; }
+  .layouts { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .layouts > li { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; background: #fff; }
+  .layouts > li[hidden] { display: none; }
+  .layout__img { display: block; padding: 0; border: 0; background: #fff; cursor: zoom-in; border-bottom: 1px solid var(--line); aspect-ratio: 4 / 3; overflow: hidden; }
+  /* the elevation sits in the middle of each A4 drawing, so crop to it */
+  .layout__img img { width: 100%; height: 100%; object-fit: contain; transform: scale(1.8); transform-origin: 55% 56%; }
+  .layout__body { padding: 1rem 1.1rem 1.2rem; display: flex; flex-direction: column; flex: 1; }
+  .layout__size { font-size: 0.85rem; color: var(--graphite-2); margin: 0 0 0.4rem; }
+  .layout__sections { margin: 0 0 1rem; padding-left: 1.2rem; font-size: 0.95rem; }
+  .layout__price { font-family: var(--display); font-size: 1.6rem; font-weight: 600; margin: auto 0 0.8rem; }
+  .layout__choose { width: 100%; }
+  .sr-empty { padding: 2rem; background: var(--panel); border-radius: var(--radius); }
+
+  .order__inner { display: grid; gap: 3rem; }
+  @media (min-width: 960px) { .order__inner { grid-template-columns: 1fr 1.4fr; gap: 4rem; } }
+  .order__summary img { width: 100%; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 1rem; }
+  .order__text { font-weight: 600; }
+  .order__price { font-family: var(--display); font-size: 1.8rem; font-weight: 600; }
+  .order__price.is-tbc { font-family: var(--font); font-size: 1rem; font-weight: 600; color: var(--graphite-2); }
+  .order__change { background: none; border: 0; padding: 0; font: inherit; font-weight: 650; cursor: pointer; text-decoration: underline; }
+  .qf__check label { display: flex; gap: 0.6rem; align-items: center; font-weight: 600; padding-top: 1.9rem; }
+  .qf__check input { width: 1.2rem; height: 1.2rem; accent-color: var(--graphite); }
+
+  .lb { border: 0; padding: 0; background: #fff; max-width: min(96vw, 1400px); border-radius: var(--radius); }
+  .lb::backdrop { background: rgba(35, 31, 32, 0.85); }
+  .lb img { max-height: 85vh; width: auto; }
+  .lb__ctrl { display: flex; justify-content: flex-end; padding: 0.5rem; }
+  .lb__ctrl button { font: inherit; font-weight: 600; padding: 0.5rem 1rem; border: 1px solid var(--alu); background: #fff; border-radius: var(--radius); cursor: pointer; }
+</style>
