@@ -1,31 +1,35 @@
-@import '@fontsource-variable/schibsted-grotesk';
+@import '@fontsource-variable/playfair-display';
+@import '@fontsource-variable/open-sans';
 
-/* Palette taken from the product itself: white melamine board, graphite
-   door frames, brushed aluminium track, oak timbergrain, and a eucalypt
-   green for the one action we want people to take. */
+/* Brand: taken from the Just Wardrobes & Storage logo and existing website.
+   Cyan #00AEEF and black #231F20 come straight from the logo. Cyan is used
+   for marks and fills (bars, lines, ticks); --blue is the text-safe link
+   colour, since cyan text on white fails contrast. */
 :root {
-  --board: #fafaf8;
-  --panel: #eef0ef;
-  --graphite: #23262b;
-  --graphite-2: #4a4f57;
-  --alu: #c9ced2;
-  --line: #dfe2e3;
-  --oak: #8c5b37;
-  --oak-soft: #e9ddd1;
-  --gum: #2d4a3e;
-  --gum-dark: #22392f;
+  --board: #ffffff;
+  --panel: #f2f2f2;
+  --graphite: #231f20;
+  --graphite-2: #5e5e5e;
+  --alu: #d5d7d8;
+  --line: #e6e6e6;
+  --cyan: #00aeef;
+  --cyan-soft: #e3f5fd;
+  --blue: #0f72b0;
+  --action: #231f20;
+  --action-hover: #00aeef;
 
-  --font: 'Schibsted Grotesk Variable', system-ui, sans-serif;
+  --font: 'Open Sans Variable', 'Open Sans', Arial, sans-serif;
+  --display: 'Playfair Display Variable', 'Playfair Display', Georgia, serif;
   --step--1: 0.875rem;
   --step-0: 1.0625rem;
   --step-1: 1.25rem;
   --step-2: 1.6rem;
   --step-3: clamp(1.9rem, 1.4rem + 1.8vw, 2.6rem);
-  --step-4: clamp(2.4rem, 1.6rem + 3.4vw, 4.2rem);
+  --step-4: clamp(2.4rem, 1.6rem + 3.2vw, 4rem);
 
   --wrap: 1240px;
   --gutter: clamp(1.25rem, 4vw, 2.5rem);
-  --radius: 4px;
+  --radius: 3px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -34,20 +38,23 @@ body {
   margin: 0;
   font-family: var(--font);
   font-size: var(--step-0);
-  line-height: 1.6;
+  line-height: 1.65;
   color: var(--graphite);
   background: var(--board);
   font-feature-settings: 'kern', 'liga';
 }
 img { max-width: 100%; height: auto; display: block; }
-a { color: var(--gum); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
-a:hover { color: var(--oak); }
-:focus-visible { outline: 3px solid var(--oak); outline-offset: 3px; border-radius: 2px; }
+a { color: var(--blue); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+a:hover { color: var(--graphite); }
+:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; border-radius: 2px; }
 
-h1, h2, h3, h4 { line-height: 1.08; margin: 0 0 0.5em; letter-spacing: -0.02em; font-weight: 700; text-wrap: balance; }
-h1 { font-size: var(--step-4); font-weight: 800; letter-spacing: -0.035em; }
-h2 { font-size: var(--step-3); font-weight: 750; letter-spacing: -0.03em; }
-h3 { font-size: var(--step-1); letter-spacing: -0.01em; }
+h1, h2 { font-family: var(--display); line-height: 1.12; margin: 0 0 0.5em; font-weight: 600; text-wrap: balance; }
+h3, h4 { line-height: 1.25; margin: 0 0 0.5em; font-weight: 700; }
+h1 { font-size: var(--step-4); }
+h2 { font-size: var(--step-3); }
+h3 { font-size: var(--step-1); }
+/* The short cyan bar under headings, carried over from the current site */
+.bar::after, .section-head h2::after { content: ''; display: block; width: 3.25rem; height: 4px; background: var(--cyan); margin-top: 0.9rem; }
 p { margin: 0 0 1em; max-width: 64ch; text-wrap: pretty; }
 .lede { font-size: var(--step-1); line-height: 1.5; color: var(--graphite-2); max-width: 46ch; }
 .num { font-variant-numeric: tabular-nums; }
@@ -56,7 +63,7 @@ p { margin: 0 0 1em; max-width: 64ch; text-wrap: pretty; }
 .section { padding-block: clamp(3.5rem, 8vw, 6.5rem); }
 .section--panel { background: var(--panel); }
 .section--dark { background: var(--graphite); color: var(--board); }
-.section--dark a { color: #cfe3d8; }
+.section--dark a { color: #8fd8f5; }
 .section-head { display: grid; gap: 0.25rem 3rem; grid-template-columns: 1fr; margin-bottom: 2.5rem; align-items: end; }
 @media (min-width: 900px) { .section-head { grid-template-columns: 1.1fr 1fr; } .section-head p { margin: 0; } }
 .skip { position: absolute; left: -999px; top: 0; background: var(--graphite); color: #fff; padding: 0.75rem 1rem; z-index: 100; }
@@ -70,8 +77,8 @@ p { margin: 0 0 1em; max-width: 64ch; text-wrap: pretty; }
   padding: 0.95rem 1.4rem; border-radius: var(--radius); border: 1.5px solid transparent;
   text-decoration: none; cursor: pointer; transition: background-color .15s, color .15s, border-color .15s;
 }
-.btn--primary { background: var(--gum); color: #fff; }
-.btn--primary:hover { background: var(--gum-dark); color: #fff; }
+.btn--primary { background: var(--action); color: #fff; }
+.btn--primary:hover { background: var(--action-hover); color: var(--graphite); }
 .btn--ghost { border-color: currentColor; color: var(--graphite); background: transparent; }
 .btn--ghost:hover { background: var(--graphite); color: var(--board); border-color: var(--graphite); }
 .section--dark .btn--ghost { color: var(--board); }
@@ -79,7 +86,7 @@ p { margin: 0 0 1em; max-width: 64ch; text-wrap: pretty; }
 .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
 /* Text link with an underline that reads as a link, not decoration */
-.more { font-weight: 650; color: var(--gum); }
+.more { font-weight: 650; color: var(--blue); }
 
 /* Lists of facts: spec sheet style, label left, value right */
 .spec { margin: 0; border-top: 1px solid var(--line); }
@@ -89,7 +96,7 @@ p { margin: 0 0 1em; max-width: 64ch; text-wrap: pretty; }
 
 .tick-list { list-style: none; padding: 0; margin: 0 0 1.5rem; }
 .tick-list li { padding-left: 1.6rem; position: relative; margin-bottom: 0.5rem; }
-.tick-list li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 0.8rem; height: 0.45rem; border-left: 2px solid var(--oak); border-bottom: 2px solid var(--oak); transform: rotate(-45deg); }
+.tick-list li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 0.8rem; height: 0.45rem; border-left: 2px solid var(--cyan); border-bottom: 2px solid var(--cyan); transform: rotate(-45deg); }
 
 .photo { border-radius: var(--radius); overflow: hidden; background: var(--alu); }
 .photo img { width: 100%; height: 100%; object-fit: cover; }

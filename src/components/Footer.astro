@@ -63,14 +63,15 @@ const year = new Date().getFullYear();
 <style>
   .ftr { background: var(--graphite); color: var(--alu); padding: 4.5rem 0 2rem; font-size: 0.95rem; }
   .ftr a { color: var(--board); text-decoration: none; }
-  .ftr a:hover { color: var(--oak-soft); text-decoration: underline; }
+  .ftr a:hover { color: var(--cyan); text-decoration: underline; }
   .ftr__grid { display: grid; gap: 2.5rem; grid-template-columns: 1fr; }
   @media (min-width: 760px) { .ftr__grid { grid-template-columns: 1.6fr 1fr 1fr 1.2fr; } }
   .ftr__brand p { margin: 1.25rem 0 1.5rem; max-width: 36ch; }
-  .ftr__brand .btn { color: #fff; }
+  .ftr__brand .btn { background: var(--cyan); color: var(--graphite); }
+  .ftr__brand .btn:hover { background: #fff; color: var(--graphite); text-decoration: none; }
   .ftr__h { font-size: 0.95rem; color: var(--board); font-weight: 700; letter-spacing: 0; margin-bottom: 1rem; }
   .ftr ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; }
-  .ftr__base { margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid #3a3e45; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; font-size: 0.85rem; }
+  .ftr__base { margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid #3d3839; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; font-size: 0.85rem; }
   .ftr__base p { margin: 0; max-width: none; }
   .ftr__base a { margin-left: 1.25rem; }
   .ftr__base a:first-child { margin-left: 0; }
@@ -79,7 +80,7 @@ const year = new Date().getFullYear();
   @media (max-width: 760px) {
     .callbar { display: grid; grid-template-columns: 1fr 2fr; position: fixed; bottom: 0; left: 0; right: 0; z-index: 40; border-top: 1px solid var(--line); }
     .callbar a { padding: 1rem; text-align: center; font-weight: 700; text-decoration: none; background: var(--board); color: var(--graphite); }
-    .callbar__main { background: var(--gum) !important; color: #fff !important; }
+    .callbar__main { background: var(--cyan) !important; color: var(--graphite) !important; }
     .ftr { padding-bottom: 5.5rem; }
   }
 </style>

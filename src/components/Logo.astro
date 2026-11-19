@@ -1,29 +1,18 @@
 ---
-// Mark: two sliding door panels on a double track, one partly open.
+// The Just Wardrobes & Storage logo (supplied artwork). logo-white.png is the
+// same file with the black lettering switched to white for dark backgrounds.
 interface Props { inverse?: boolean; }
 const { inverse = false } = Astro.props;
 ---
-<span class:list={['logo', { 'logo--inverse': inverse }]}>
-  <svg class="logo__mark" viewBox="0 0 40 40" aria-hidden="true">
-    <rect x="4" y="5" width="17" height="28" rx="1" class="p1" />
-    <rect x="16" y="7" width="17" height="28" rx="1" class="p2" />
-    <path d="M2 37.5h36" class="track" />
-  </svg>
-  <span class="logo__text">
-    <span class="logo__name">Just Wardrobes</span>
-    <span class="logo__sub">&amp; Storage</span>
-  </span>
-</span>
+<img
+  class="logo"
+  src={inverse ? '/logo-white.png' : '/logo.png'}
+  alt="Just Wardrobes & Storage"
+  width="700"
+  height="132"
+/>
 
 <style>
-  .logo { display: inline-flex; align-items: center; gap: 0.6rem; color: var(--graphite); }
-  .logo__mark { width: 2.25rem; height: 2.25rem; flex: none; }
-  .p1 { fill: none; stroke: currentColor; stroke-width: 2.4; }
-  .p2 { fill: var(--oak); }
-  .track { stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
-  .logo__text { display: grid; line-height: 1; }
-  .logo__name { font-weight: 800; font-size: 1.2rem; letter-spacing: -0.03em; }
-  .logo__sub { font-weight: 500; font-size: 0.8rem; letter-spacing: 0.01em; color: var(--graphite-2); margin-top: 0.2rem; }
-  .logo--inverse { color: var(--board); }
-  .logo--inverse .logo__sub { color: var(--alu); }
+  .logo { display: block; height: 3.1rem; width: auto; }
+  @media (max-width: 480px) { .logo { height: 2.3rem; } }
 </style>

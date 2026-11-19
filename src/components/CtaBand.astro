@@ -6,7 +6,7 @@ const {
   text = 'A designer comes to you, measures up and talks through options. You get plans and a fixed price with no obligation.',
 } = Astro.props;
 ---
-<section class="section section--dark cta">
+<section class="section cta">
   <div class="wrap cta__inner">
     <div>
       <h2>{title}</h2>
@@ -22,7 +22,9 @@ const {
 <style>
   .cta__inner { display: grid; gap: 2rem; align-items: end; }
   @media (min-width: 900px) { .cta__inner { grid-template-columns: 1.4fr 1fr; } .cta .btn-row { justify-content: flex-end; } }
-  .cta p { color: var(--alu); margin: 0; }
-  .cta .btn--primary { background: var(--board); color: var(--graphite); }
-  .cta .btn--primary:hover { background: var(--oak-soft); color: var(--graphite); }
+  .cta { background: var(--cyan); color: var(--graphite); }
+  .cta h2::after { content: ''; display: block; width: 3.25rem; height: 4px; background: var(--graphite); margin-top: 0.9rem; }
+  .cta p { margin: 0; }
+  .cta .btn--primary:hover { background: var(--board); color: var(--graphite); }
+  .cta .btn--ghost:hover { background: var(--graphite); color: #fff; border-color: var(--graphite); }
 </style>

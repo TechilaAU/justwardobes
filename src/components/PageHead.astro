@@ -7,7 +7,7 @@ const { title, intro, photo, alt = '', height, width } = Astro.props;
 <section class="ph">
   <div class="wrap ph__inner">
     <div class="ph__text">
-      <h1>{title}</h1>
+      <h1 class="bar">{title}</h1>
       <p class="lede">{intro}</p>
       <slot />
     </div>
