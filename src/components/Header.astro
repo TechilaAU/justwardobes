@@ -1,7 +1,7 @@
 ---
 import Logo from './Logo.astro';
 import { nav, site } from '../config/site';
-const path = Astro.url.pathname;
+const path = Astro.url.pathname.replace(import.meta.env.BASE_URL.replace(/\/$/, ''), '') || '/';
 ---
 <header class="hdr">
   <div class="wrap hdr__inner">

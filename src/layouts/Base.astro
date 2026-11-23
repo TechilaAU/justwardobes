@@ -7,6 +7,8 @@ import { img, photos } from '../data/images';
 
 interface Props { title: string; description: string; image?: string; noindex?: boolean; }
 const { title, description, image = photos.heroWir, noindex = false } = Astro.props;
+// Test builds (GitHub Pages) must not track, get indexed, or send real leads.
+const preview = import.meta.env.PUBLIC_PREVIEW === 'true';
 const fullTitle = title.includes('Just Wardrobes') ? title : `${title} | Just Wardrobes & Storage`;
 const canonical = new URL(Astro.url.pathname, site.url).href;
 const ogImage = img(image).startsWith('http') ? img(image) : new URL(img(image), site.url).href;
@@ -39,7 +41,7 @@ const schema = {
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex" />}
+    {(noindex || preview) && <meta name="robots" content="noindex" />}
     <meta property="og:type" content="website" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
@@ -50,9 +52,9 @@ const schema = {
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
-    <script is:inline define:vars={{ gtm: site.gtmId }}>
+    {!preview && <script is:inline define:vars={{ gtm: site.gtmId }}>
       (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',gtm);
-    </script>
+    </script>}
     <slot name="head" />
   </head>
   <body>
@@ -60,5 +62,23 @@ const schema = {
     <Header />
     <main id="main"><slot /></main>
     <Footer />
+    {preview && (
+      <>
+        <div class="preview-flag">Test site. Forms don’t send anything.</div>
+        <script is:inline>
+          // Runs after each form's own validation. If the form would submit, stop it and show what would be sent.
+          document.addEventListener('submit', function (e) {
+            var form = e.target;
+            if (e.defaultPrevented || form.id === 'pick') return;
+            e.preventDefault();
+            var desc = form.querySelector('[name="description"]');
+            var note = form.querySelector('.preview-note') || document.createElement('p');
+            note.className = 'preview-note';
+            note.textContent = 'Test site only, nothing was sent. On the live site this goes to Salesforce as a Lead' + (desc && desc.value ? ':\n\n' + desc.value : '.');
+            form.appendChild(note);
+          });
+        </script>
+      </>
+    )}
   </body>
 </html>
